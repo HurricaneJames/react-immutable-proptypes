@@ -5,6 +5,7 @@ PropType validators that work with Immutable.js.
 I got tired of seeing `React.PropTypes.instanceOf(Immutable.List)` or `React.PropTypes.instanceOf(Immutable.Map)` as PropTypes for components that should be specifying an Immutable.List of something or an Immutable.Map shape. A little "googling" came up with empty, unless you want to use Flow, which I do not. So, I wrote `react-immutable-proptypes`.
 
 Usage is simple:
+
     var ImmutablePropTypes = require('react-immutable-proptypes');
     var MyReactComponent = React.createClass({
       // ...
