@@ -1,0 +1,39 @@
+{
+  "name": "react-immutable-proptypes",
+  "version": "0.1.0",
+  "description": "PropType validators that work with Immutable.js.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "./scripts/build",
+    "test": "./scripts/test",
+    "test-cov": "./scripts/test-cov",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HurricaneJames/react-immutable-proptypes"
+  },
+  "keywords": [
+    "react",
+    "immutable-js",
+    "immutable",
+    "immutablejs",
+    "proptype"
+  ],
+  "author": "James Burnett <HurricaneJamesEsq@gmail.com> (https://github.com/HurricaneJames/react-immutable-proptypes)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HurricaneJames/react-immutable-proptypes/issues"
+  },
+  "homepage": "https://github.com/HurricaneJames/react-immutable-proptypes",
+  "peerDependencies": {
+    "react": "^0.12.2",
+    "immutable": "^3.6.2"
+  },
+  "devDependencies": {
+    "babel": "^4.6.6",
+    "expect.js": "^0.3.1",
+    "istanbul": "~0.3.7",
+    "mocha": "^2.0.1"
+  }
+}

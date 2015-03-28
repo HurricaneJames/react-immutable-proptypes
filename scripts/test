@@ -1,0 +1,2 @@
+#!/bin/sh
+./node_modules/.bin/mocha --require ./babel ./src/__tests__
