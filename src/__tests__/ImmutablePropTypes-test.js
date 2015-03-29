@@ -180,6 +180,10 @@ describe('ImmutablePropTypes', function() {
       typeCheckPass(PropTypes.shape({key: React.PropTypes.number}), Immutable.fromJS({key: 1}));
     });
 
+    it("should ignore null keys", function() {
+      typeCheckPass(PropTypes.shape({key: null}), Immutable.fromJS({key: 1}));
+    });
+
     it("should warn for required valid types", function() {
       typeCheckFail(
         PropTypes.shape({key: React.PropTypes.number.isRequired}),
@@ -228,5 +232,15 @@ describe('ImmutablePropTypes', function() {
         requiredMessage
       );
     });
+
+    it("should probably not validate a list, but does", function() {
+      var shape = {
+        0: React.PropTypes.number.isRequired,
+        1: React.PropTypes.string.isRequired,
+        2: React.PropTypes.string
+      };
+      typeCheckPass(PropTypes.shape(shape), new Immutable.List([1, '2']));
+    });
+
   });
 });
