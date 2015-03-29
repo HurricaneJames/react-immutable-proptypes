@@ -9,12 +9,12 @@ I got tired of seeing `React.PropTypes.instanceOf(Immutable.List)` or `React.Pro
 
 Usage is simple, they are work with and like any `React.PropType.*` validator.
 
-    var ImmutableTypes = require('react-immutable-proptypes');
+    var ImmutablePropTypes = require('react-immutable-proptypes');
     var MyReactComponent = React.createClass({
       // ...
       propTypes: {
-        myRequiredImmutableList: ImmutableTypes.listOf(
-          ImmutableTypes.shape({
+        myRequiredImmutableList: ImmutablePropTypes.listOf(
+          ImmutablePropTypes.shape({
             someNumberProp: React.PropTypes.number.isRequired
           })
         ).isRequired
