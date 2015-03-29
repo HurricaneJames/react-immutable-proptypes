@@ -1,6 +1,6 @@
 # react-immutable-proptypes
 
-[![Code Climate](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes/badges/gpa.svg)](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes) [![Test Coverage](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes/badges/coverage.svg)](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes)
+[![npm package](https://img.shields.io/npm/v/react-immutable-proptypes.svg?style=flat)](https://www.npmjs.org/package/react-immutable-proptypes) [![Code Climate](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes/badges/gpa.svg)](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes) [![Test Coverage](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes/badges/coverage.svg)](https://codeclimate.com/github/HurricaneJames/react-immutable-proptypes)
 
 PropType validators that work with Immutable.js.
 
