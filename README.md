@@ -13,8 +13,8 @@ Usage is simple, they are work with and like any `React.PropType.*` validator.
     var MyReactComponent = React.createClass({
       // ...
       propTypes: {
-        myRequiredImmutableList: ImmutableTypes.listOf(
-          ImmutableTypes.shape({
+        myRequiredImmutableList: ImmutablePropTypes.listOf(
+          ImmutablePropTypes.shape({
             someNumberProp: React.PropTypes.number.isRequired
           })
         ).isRequired
