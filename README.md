@@ -4,6 +4,9 @@
 
 PropType validators that work with Immutable.js.
 
+## Version Updates
+0.1.3 updated package.json to support React v0.11.0+ (including 0.13.1). Thanks [Andrey Okonetchnikov](https://github.com/okonet)!
+
 
 ## About
 
