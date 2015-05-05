@@ -10,6 +10,7 @@ var ANONYMOUS = '<<anonymous>>';
 
 var ImmutablePropTypes = {
   listOf: createListOfTypeChecker,
+  mapOf:  createMapOfTypeChecker,
   shape:  createShapeTypeChecker
 };
 
@@ -58,6 +59,28 @@ function createListOfTypeChecker(typeChecker) {
       return new Error(
         ("Invalid " + locationName + " `" + propName + "` of type ") +
         ("`" + propType + "` supplied to `" + componentName + "`, expected an Immutable.js List.")
+      );
+    }
+    var propValues = propValue.toArray();
+    for (var i = 0, len = propValues.length; i < len; i++) {
+      var error = typeChecker(propValues, i, componentName, location);
+      if (error instanceof Error) {
+        return error;
+      }
+    }
+  }
+  return createChainableTypeChecker(validate);
+}
+
+function createMapOfTypeChecker(typeChecker) {
+  function validate(props, propName, componentName, location) {
+    var propValue = props[propName];
+    if (!Immutable.Map.isMap(propValue)) {
+      var locationName = location;
+      var propType = getPropType(propValue);
+      return new Error(
+        ("Invalid " + locationName + " `" + propName + "` of type ") +
+        ("`" + propType + "` supplied to `" + componentName + "`, expected an Immutable.js Map.")
       );
     }
     var propValues = propValue.toArray();

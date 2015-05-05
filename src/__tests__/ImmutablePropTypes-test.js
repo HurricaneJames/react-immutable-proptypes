@@ -37,9 +37,6 @@ describe('ImmutablePropTypes', function() {
     PropTypes = require('../ImmutablePropTypes');
     React = require('react');
     Immutable = require('immutable');
-    // ReactFragment = require('ReactFragment');
-    // ReactPropTypeLocations = require('ReactPropTypeLocations');
-    // ReactTestUtils = require('ReactTestUtils');
   });
 
   describe('ListOf Type', function() {
@@ -241,6 +238,102 @@ describe('ImmutablePropTypes', function() {
       };
       typeCheckPass(PropTypes.shape(shape), new Immutable.List([1, '2']));
     });
+  });
 
+  describe("MapOf Type", function() {
+    it('should support the mapOf propTypes', function() {
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.number), new Immutable.Map({1: 1, 2: 2, 3: 3}));
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.string), new Immutable.Map({1: 'a', 2: 'b', 3: 'c'}));
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.oneOf(['a', 'b'])), new Immutable.Map({1: 'a', 2: 'b'}));
+    });
+
+    it('should support mapOf with complex types', function() {
+      typeCheckPass(
+        PropTypes.mapOf(React.PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        new Immutable.Map({1: {a: 1}, 2: {a: 2}})
+      );
+
+      typeCheckPass(
+        PropTypes.mapOf(PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        Immutable.fromJS({1: {a: 1}, 2: {a: 2}})
+      );
+
+      function Thing() {}
+      typeCheckPass(
+        PropTypes.mapOf(React.PropTypes.instanceOf(Thing)),
+        new Immutable.Map({ 1: new Thing(), 2: new Thing() })
+      );
+    });
+
+    it('should warn with invalid items in the map list', function() {
+      typeCheckFail(
+        PropTypes.mapOf(React.PropTypes.number),
+        new Immutable.Map({ 1: 1, 2: 2, 3: 'b' }),
+        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should warn with invalid complex types', function() {
+      function Thing() {}
+      var name = Thing.name || '<<anonymous>>';
+
+      typeCheckFail(
+        PropTypes.mapOf(React.PropTypes.instanceOf(Thing)),
+        new Immutable.Map({ 1: new Thing(), 2: 'xyz' }),
+        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        name + '`.'
+      );
+    });
+
+    it('should warn when passed something other than an Immutable.Map', function() {
+      typeCheckFail(
+        PropTypes.mapOf(React.PropTypes.number),
+        {'0': 'maybe-array', length: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js Map.'
+      );
+      typeCheckFail(
+        PropTypes.mapOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an Immutable.js Map.'
+      );
+      typeCheckFail(
+        PropTypes.mapOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js Map.'
+      );
+      typeCheckFail(
+        PropTypes.mapOf(PropTypes.number),
+        [1, 2, 3],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js Map.'
+      );
+    });
+
+    it('should not warn when passing an empty object', function() {
+      typeCheckPass(PropTypes.mapOf(PropTypes.number), new Immutable.Map());
+      typeCheckPass(PropTypes.mapOf(PropTypes.number), new Immutable.Map({}));
+    });
+
+    it("should be implicitly optional and not warn without values", function() {
+      typeCheckPass(PropTypes.mapOf(PropTypes.number), null);
+      typeCheckPass(PropTypes.mapOf(PropTypes.number), undefined);
+    });
+
+    it("should warn for missing required values", function() {
+      typeCheckFail(
+        PropTypes.mapOf(PropTypes.number).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.mapOf(PropTypes.number).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
   });
 });
