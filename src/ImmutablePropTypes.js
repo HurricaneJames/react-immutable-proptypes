@@ -11,6 +11,7 @@ var ANONYMOUS = '<<anonymous>>';
 var ImmutablePropTypes = {
   listOf: createListOfTypeChecker,
   mapOf:  createMapOfTypeChecker,
+  iterableOf: createIterableOfTypeChecker,
   shape:  createShapeTypeChecker
 };
 
@@ -50,15 +51,15 @@ function createChainableTypeChecker(validate) {
   return chainedCheckType;
 }
 
-function createListOfTypeChecker(typeChecker) {
+function createIterableTypeChecker(typeChecker, immutableClassName, immutableClassTypeValidator) {
   function validate(props, propName, componentName, location) {
     var propValue = props[propName];
-    if (!Immutable.List.isList(propValue)) {
+    if (!immutableClassTypeValidator(propValue)) {
       var locationName = location;
       var propType = getPropType(propValue);
       return new Error(
         ("Invalid " + locationName + " `" + propName + "` of type ") +
-        ("`" + propType + "` supplied to `" + componentName + "`, expected an Immutable.js List.")
+        ("`" + propType + "` supplied to `" + componentName + "`, expected an Immutable.js " + immutableClassName + ".")
       );
     }
     var propValues = propValue.toArray();
@@ -69,29 +70,19 @@ function createListOfTypeChecker(typeChecker) {
       }
     }
   }
-  return createChainableTypeChecker(validate);
+  return createChainableTypeChecker(validate);  
+}
+
+function createListOfTypeChecker(typeChecker) {
+  return createIterableTypeChecker(typeChecker, "List", Immutable.List.isList);
 }
 
 function createMapOfTypeChecker(typeChecker) {
-  function validate(props, propName, componentName, location) {
-    var propValue = props[propName];
-    if (!Immutable.Map.isMap(propValue)) {
-      var locationName = location;
-      var propType = getPropType(propValue);
-      return new Error(
-        ("Invalid " + locationName + " `" + propName + "` of type ") +
-        ("`" + propType + "` supplied to `" + componentName + "`, expected an Immutable.js Map.")
-      );
-    }
-    var propValues = propValue.toArray();
-    for (var i = 0, len = propValues.length; i < len; i++) {
-      var error = typeChecker(propValues, i, componentName, location);
-      if (error instanceof Error) {
-        return error;
-      }
-    }
-  }
-  return createChainableTypeChecker(validate);
+  return createIterableTypeChecker(typeChecker, "Map", Immutable.Map.isMap);
+}
+
+function createIterableOfTypeChecker(typeChecker) {
+  return createIterableTypeChecker(typeChecker, "Iterable", Immutable.Iterable.isIterable);
 }
 
 // there is some irony in the fact that shapeTypes is a standard hash and not an immutable collection

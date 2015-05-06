@@ -41,7 +41,9 @@ React-Immutable-PropTypes has just two validators that cover 100% of my use case
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
-* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map`. I am open to creating an `ImmutablePropTypes.iterableOf` that would validate against any `Immutable.Iterable` if anybody wants it.
+* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map`.
+
+* `ImmutbalePropTypes.iterableOf` is the generic form of listOf/mapOf. It is useful when there is no need to validate anything other than Immutable.js compatible (ie. `Immutable.Iterable`). Continue to use `listOf` and/or `mapOf` when you know the type.
 
 * `ImmutablePropTypes.shape` is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `shape` to validate an array via `Immutable.List`.
 
