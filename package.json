@@ -7,7 +7,8 @@
     "build": "./scripts/build",
     "test": "./scripts/test",
     "test-cov": "./scripts/test-cov",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "lint": "./node_modules/.bin/eslint ./src"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,9 @@
   },
   "devDependencies": {
     "babel": "^4.6.6",
+    "babel-eslint": "^3.1.1",
+    "eslint": "^0.21.0",
+    "eslint-plugin-react": "^2.2.0",
     "expect.js": "^0.3.1",
     "istanbul": "~0.3.7",
     "mocha": "^2.0.1"
