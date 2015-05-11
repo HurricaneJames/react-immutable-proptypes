@@ -5,6 +5,7 @@
 PropType validators that work with Immutable.js.
 
 ## Version Updates
+- 0.1.7 added convencience checkers for "primitive" immutable types (map, list, etc...)
 - 0.1.6 added `iterableOf`
 - 0.1.4 added `mapOf`
 - 0.1.3 updated package.json to support React v0.11.0+ (including 0.13.1). Thanks [Andrey Okonetchnikov](https://github.com/okonet)!
@@ -31,6 +32,16 @@ Usage is simple, they work with and like any `React.PropType.*` validator.
       // ...
     });
 
+Since version 0.1.7 there are convenience helpers for "primitive" Immutable.js objects.
+
+    propTypes: {
+      oldListTypeChecker: React.PropTypes.instanceOf(Immutable.List),
+      anotherWay: ImmutablePropTypes.list,
+      requiredList: ImmutablePropTypes.list.isRequired,
+      mapsToo: ImmutablePropTypes.map,
+      evenIterable: ImmutablePropTypes.iterable
+    }
+
 
 ## Installation
 
@@ -41,7 +52,17 @@ Installing via [npmjs](https://www.npmjs.com/package/react-immutable-proptypes)
 
 ## API
 
-React-Immutable-PropTypes has just two validators that cover 100% of my use cases, and probably 99% of everybody's use cases.
+React-Immutable-PropTypes has:
+* Primitive Types
+
+        ImmutablePropTypes.list         // Immutable.List.isList
+        ImmutablePropTypes.map          // Immutable.Map.isMap
+        ImmutablePropTypes.orderedMap   // Immutable.OrderedMap.isOrderedMap
+        ImmutablePropTypes.set          // Immutable.Set.isSet
+        ImmutablePropTypes.orderedSet   // Immutable.OrderedSet.isOrderedSet
+        ImmutablePropTypes.stack        // Immutable.Stack.isStack
+        ImmutablePropTypes.seq          // Immutable.Seq.isSeq
+        ImmutablePropTypes.iterable     // Immutable.Iterable.isIterable
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 

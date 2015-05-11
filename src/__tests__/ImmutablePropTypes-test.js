@@ -2,9 +2,6 @@ import expect from 'expect.js';
 var PropTypes;
 var React;
 var Immutable;
-var ReactFragment;
-var ReactPropTypeLocations;
-var ReactTestUtils;
 
 var requiredMessage =
   'Required prop `testProp` was not specified in `testComponent`.';
@@ -29,7 +26,7 @@ function typeCheckPass(declaration, value) {
     'testComponent',
     'prop'
   );
-  expect(error).to.be(undefined);
+  expect(error).not.to.be.ok();
 }
 
 describe('ImmutablePropTypes', function() {
@@ -37,6 +34,124 @@ describe('ImmutablePropTypes', function() {
     PropTypes = require('../ImmutablePropTypes');
     React = require('react');
     Immutable = require('immutable');
+  });
+
+  describe('Primitive Types', function() {
+    it('should not warn for valid values', function() {
+      typeCheckPass(PropTypes.list, new Immutable.List());
+      typeCheckPass(PropTypes.map, new Immutable.Map());
+      typeCheckPass(PropTypes.map, new Immutable.OrderedMap());
+      typeCheckPass(PropTypes.orderedMap, new Immutable.OrderedMap());
+      typeCheckPass(PropTypes.set, new Immutable.Set());
+      typeCheckPass(PropTypes.set, new Immutable.OrderedSet());
+      typeCheckPass(PropTypes.orderedSet, new Immutable.OrderedSet());
+      typeCheckPass(PropTypes.stack, new Immutable.Stack());
+      typeCheckPass(PropTypes.seq, new Immutable.Seq());
+      typeCheckPass(PropTypes.iterable, new Immutable.Iterable());
+      typeCheckPass(PropTypes.iterable, new Immutable.List());
+      typeCheckPass(PropTypes.iterable, new Immutable.Map());
+      typeCheckPass(PropTypes.iterable, new Immutable.OrderedMap());
+      typeCheckPass(PropTypes.iterable, new Immutable.Set());
+      typeCheckPass(PropTypes.iterable, new Immutable.OrderedSet());
+      typeCheckPass(PropTypes.iterable, new Immutable.Stack());
+      typeCheckPass(PropTypes.iterable, new Immutable.Seq());
+    });
+    it('should warn for invalid lists', function() {
+      typeCheckFail(
+        PropTypes.list,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+      typeCheckFail(
+        PropTypes.list,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+      typeCheckFail(
+        PropTypes.list,
+        '',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+      typeCheckFail(
+        PropTypes.list,
+        false,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+      typeCheckFail(
+        PropTypes.list,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+      typeCheckFail(
+        PropTypes.list,
+        new Immutable.Map(),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+      typeCheckFail(
+        PropTypes.list,
+        new Immutable.Iterable(),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `List`.'
+      );
+    });
+    it('should warn for invalid maps', function() {
+      typeCheckFail(
+        PropTypes.map,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+      typeCheckFail(
+        PropTypes.map,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+      typeCheckFail(
+        PropTypes.map,
+        '',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+      typeCheckFail(
+        PropTypes.map,
+        false,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+      typeCheckFail(
+        PropTypes.map,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+      typeCheckFail(
+        PropTypes.map,
+        new Immutable.List(),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+      typeCheckFail(
+        PropTypes.map,
+        new Immutable.Iterable(),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Map`.'
+      );
+    });
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(PropTypes.list, null);
+      typeCheckPass(PropTypes.list, undefined);
+    });
+    it('should warn for missing required values', function() {
+      typeCheckFail(PropTypes.list.isRequired, null, requiredMessage);
+      typeCheckFail(PropTypes.list.isRequired, undefined, requiredMessage);
+    });
   });
 
   describe('ListOf Type', function() {
@@ -117,12 +232,12 @@ describe('ImmutablePropTypes', function() {
       typeCheckPass(PropTypes.listOf(PropTypes.number), new Immutable.List([]));
     });
 
-    it("should be implicitly optional and not warn without values", function() {
+    it('should be implicitly optional and not warn without values', function() {
       typeCheckPass(PropTypes.listOf(PropTypes.number), null);
       typeCheckPass(PropTypes.listOf(PropTypes.number), undefined);
     });
 
-    it("should warn for missing required values", function() {
+    it('should warn for missing required values', function() {
       typeCheckFail(
         PropTypes.listOf(PropTypes.number).isRequired,
         null,
@@ -136,7 +251,7 @@ describe('ImmutablePropTypes', function() {
     });
   });
 
-  describe("MapOf Type", function() {
+  describe('MapOf Type', function() {
     it('should support the mapOf propTypes', function() {
       typeCheckPass(PropTypes.mapOf(React.PropTypes.number), new Immutable.Map({1: 1, 2: 2, 3: 3}));
       typeCheckPass(PropTypes.mapOf(React.PropTypes.string), new Immutable.Map({1: 'a', 2: 'b', 3: 'c'}));
@@ -214,12 +329,12 @@ describe('ImmutablePropTypes', function() {
       typeCheckPass(PropTypes.mapOf(PropTypes.number), new Immutable.Map({}));
     });
 
-    it("should be implicitly optional and not warn without values", function() {
+    it('should be implicitly optional and not warn without values', function() {
       typeCheckPass(PropTypes.mapOf(PropTypes.number), null);
       typeCheckPass(PropTypes.mapOf(PropTypes.number), undefined);
     });
 
-    it("should warn for missing required values", function() {
+    it('should warn for missing required values', function() {
       typeCheckFail(
         PropTypes.mapOf(PropTypes.number).isRequired,
         null,
@@ -346,12 +461,12 @@ describe('ImmutablePropTypes', function() {
       typeCheckPass(PropTypes.iterableOf(PropTypes.number), new Immutable.Map({}));
     });
 
-    it("should be implicitly optional and not warn without values", function() {
+    it('should be implicitly optional and not warn without values', function() {
       typeCheckPass(PropTypes.iterableOf(PropTypes.number), null);
       typeCheckPass(PropTypes.iterableOf(PropTypes.number), undefined);
     });
 
-    it("should warn for missing required values", function() {
+    it('should warn for missing required values', function() {
       typeCheckFail(
         PropTypes.iterableOf(PropTypes.number).isRequired,
         null,
@@ -366,7 +481,7 @@ describe('ImmutablePropTypes', function() {
   });
 
   describe('Shape Types', function() {
-    it("should warn for non objects", function() {
+    it('should warn for non objects', function() {
       typeCheckFail(
         PropTypes.shape({}),
         'some string',
@@ -378,7 +493,7 @@ describe('ImmutablePropTypes', function() {
         ['array'],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js Iterable.'
-      );      
+      );
       typeCheckFail(
         PropTypes.shape({}),
         {a: 1},
@@ -387,29 +502,29 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it("should not warn for empty values", function() {
+    it('should not warn for empty values', function() {
       typeCheckPass(PropTypes.shape({}), undefined);
       typeCheckPass(PropTypes.shape({}), null);
       typeCheckPass(PropTypes.shape({}), Immutable.fromJS({}));
     });
 
-    it("should not warn for an empty Immutable object", function() {
+    it('should not warn for an empty Immutable object', function() {
       typeCheckPass(PropTypes.shape({}).isRequired, Immutable.fromJS({}));
     });
 
-    it("should not warn for non specified types", function() {
+    it('should not warn for non specified types', function() {
       typeCheckPass(PropTypes.shape({}), Immutable.fromJS({key: 1}));
     });
 
-    it("should not warn for valid types", function() {
+    it('should not warn for valid types', function() {
       typeCheckPass(PropTypes.shape({key: React.PropTypes.number}), Immutable.fromJS({key: 1}));
     });
 
-    it("should ignore null keys", function() {
+    it('should ignore null keys', function() {
       typeCheckPass(PropTypes.shape({key: null}), Immutable.fromJS({key: 1}));
     });
 
-    it("should warn for required valid types", function() {
+    it('should warn for required valid types', function() {
       typeCheckFail(
         PropTypes.shape({key: React.PropTypes.number.isRequired}),
         Immutable.fromJS({}),
@@ -417,7 +532,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it("should warn for the first required type", function() {
+    it('should warn for the first required type', function() {
       typeCheckFail(
         PropTypes.shape({
           key: React.PropTypes.number.isRequired,
@@ -428,7 +543,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it("should warn for invalid key types", function() {
+    it('should warn for invalid key types', function() {
       typeCheckFail(PropTypes.shape({key: React.PropTypes.number}),
         Immutable.fromJS({key: 'abc'}),
         'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
@@ -436,7 +551,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it("should be implicitly optional and not warn without values", function() {
+    it('should be implicitly optional and not warn without values', function() {
       typeCheckPass(
         PropTypes.shape(PropTypes.shape({key: React.PropTypes.number})), null
       );
@@ -445,7 +560,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it("should warn for missing required values", function() {
+    it('should warn for missing required values', function() {
       typeCheckFail(
         PropTypes.shape({key: React.PropTypes.number}).isRequired,
         null,
@@ -458,7 +573,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it("should probably not validate a list, but does", function() {
+    it('should probably not validate a list, but does', function() {
       var shape = {
         0: React.PropTypes.number.isRequired,
         1: React.PropTypes.string.isRequired,
