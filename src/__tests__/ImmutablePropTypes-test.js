@@ -348,6 +348,98 @@ describe('ImmutablePropTypes', function() {
     });
   });
 
+  describe('SetOf Type', function() {
+    it('should support the setOf propTypes', function() {
+      typeCheckPass(PropTypes.setOf(React.PropTypes.number), new Immutable.Set([1, 2, 3]));
+      typeCheckPass(PropTypes.setOf(React.PropTypes.string), new Immutable.Set(['a', 'b', 'c']));
+      typeCheckPass(PropTypes.setOf(React.PropTypes.oneOf(['a', 'b'])), new Immutable.Set(['a','b']));
+    });
+
+    it('should support setOf with complex types', function() {
+      typeCheckPass(
+        PropTypes.setOf(React.PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        new Immutable.Set([{a: 1}, {a: 2}])
+      );
+
+      function Thing() {}
+      typeCheckPass(
+        PropTypes.setOf(React.PropTypes.instanceOf(Thing)),
+        new Immutable.Set([new Thing(), new Thing() ])
+      );
+    });
+
+    it('should warn with invalid items in the set list', function() {
+      typeCheckFail(
+        PropTypes.setOf(React.PropTypes.number),
+        new Immutable.Set([1, 2, 'b']),
+        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should warn with invalid complex types', function() {
+      function Thing() {}
+      var name = Thing.name || '<<anonymous>>';
+
+      typeCheckFail(
+        PropTypes.setOf(React.PropTypes.instanceOf(Thing)),
+        new Immutable.Set([new Thing(), 'xyz' ]),
+        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        name + '`.'
+      );
+    });
+
+    it('should warn when passed something other than an Immutable.Set', function() {
+      typeCheckFail(
+        PropTypes.setOf(React.PropTypes.number),
+        {'0': 'maybe-array', length: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js Set.'
+      );
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an Immutable.js Set.'
+      );
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js Set.'
+      );
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        [1, 2, 3],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js Set.'
+      );
+    });
+
+    it('should not warn when passing an empty object', function() {
+      typeCheckPass(PropTypes.setOf(PropTypes.number), new Immutable.Set());
+      typeCheckPass(PropTypes.setOf(PropTypes.number), new Immutable.Set([]));
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(PropTypes.setOf(PropTypes.number), null);
+      typeCheckPass(PropTypes.setOf(PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+  });
+
   describe('IterableOf Type', function() {
     it('should support the iterableOf propTypes', function() {
       typeCheckPass(PropTypes.iterableOf(React.PropTypes.number), new Immutable.List([1, 2, 3]));
