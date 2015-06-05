@@ -352,7 +352,7 @@ describe('ImmutablePropTypes', function() {
     it('should support the setOf propTypes', function() {
       typeCheckPass(PropTypes.setOf(React.PropTypes.number), new Immutable.Set([1, 2, 3]));
       typeCheckPass(PropTypes.setOf(React.PropTypes.string), new Immutable.Set(['a', 'b', 'c']));
-      typeCheckPass(PropTypes.setOf(React.PropTypes.oneOf(['a', 'b'])), new Immutable.Set(['a','b']));
+      typeCheckPass(PropTypes.setOf(React.PropTypes.oneOf(['a', 'b'])), new Immutable.Set(['a', 'b']));
     });
 
     it('should support setOf with complex types', function() {
