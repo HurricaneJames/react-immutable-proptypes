@@ -276,7 +276,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it('should warn with invalid items in the map list', function() {
+    it('should warn with invalid items in the map', function() {
       typeCheckFail(
         PropTypes.mapOf(React.PropTypes.number),
         new Immutable.Map({ 1: 1, 2: 2, 3: 'b' }),
@@ -368,7 +368,7 @@ describe('ImmutablePropTypes', function() {
       );
     });
 
-    it('should warn with invalid items in the set list', function() {
+    it('should warn with invalid items in the set', function() {
       typeCheckFail(
         PropTypes.setOf(React.PropTypes.number),
         new Immutable.Set([1, 2, 'b']),
