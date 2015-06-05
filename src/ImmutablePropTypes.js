@@ -11,6 +11,7 @@ var ANONYMOUS = '<<anonymous>>';
 var ImmutablePropTypes = {
   listOf: createListOfTypeChecker,
   mapOf:  createMapOfTypeChecker,
+  setOf:  createSetOfTypeChecker,
   iterableOf: createIterableOfTypeChecker,
   shape:  createShapeTypeChecker,
   // Primitive Types
@@ -103,6 +104,10 @@ function createListOfTypeChecker(typeChecker) {
 
 function createMapOfTypeChecker(typeChecker) {
   return createIterableTypeChecker(typeChecker, 'Map', Immutable.Map.isMap);
+}
+
+function createSetOfTypeChecker(typeChecker) {
+  return createIterableTypeChecker(typeChecker, 'Set', Immutable.Set.isSet);
 }
 
 function createIterableOfTypeChecker(typeChecker) {
