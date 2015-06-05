@@ -69,6 +69,8 @@ React-Immutable-PropTypes has:
 
 * `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map`.
 
+* `ImmutablePropTypes.setOf` is basically the same as `listOf`, but it is specific to `Immutable.Set`.
+
 * `ImmutbalePropTypes.iterableOf` is the generic form of listOf/mapOf. It is useful when there is no need to validate anything other than Immutable.js compatible (ie. `Immutable.Iterable`). Continue to use `listOf` and/or `mapOf` when you know the type.
 
 * `ImmutablePropTypes.shape` is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `shape` to validate an array via `Immutable.List`.
