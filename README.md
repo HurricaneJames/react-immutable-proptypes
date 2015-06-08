@@ -5,13 +5,12 @@
 PropType validators that work with Immutable.js.
 
 ## Version Updates
+- 1.0.0 marked as stable, no other changes
 - 0.1.8 added `setOf` checker. Thanks to [Don Abrams](https://github.com/donabrams)!
 - 0.1.7 added convencience checkers for "primitive" immutable types (map, list, etc...)
 - 0.1.6 added `iterableOf`
 - 0.1.4 added `mapOf`
 - 0.1.3 updated package.json to support React v0.11.0+ (including 0.13.1). Thanks [Andrey Okonetchnikov](https://github.com/okonet)!
-
-Since v 0.1.6 the library seems like it covers just about everything that is needed. If this package continues to be as stable on our projects as it has been, there will probably be a bump to v 1.0 soon.
 
 
 ## About
