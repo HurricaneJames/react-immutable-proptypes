@@ -5,6 +5,7 @@
 PropType validators that work with Immutable.js.
 
 ## Version Updates
+- 1.1.0 added `contains` to replace `shape` validator. `shape` is deprecated and will be removed in v 1.2.0
 - 1.0.0 marked as stable, no other changes
 - 0.1.8 added `setOf` checker. Thanks to [Don Abrams](https://github.com/donabrams)!
 - 0.1.7 added convencience checkers for "primitive" immutable types (map, list, etc...)
@@ -15,7 +16,7 @@ PropType validators that work with Immutable.js.
 
 ## About
 
-I got tired of seeing `React.PropTypes.instanceOf(Immutable.List)` or `React.PropTypes.instanceOf(Immutable.Map)` as PropTypes for components that should be specifying an `Immutable.List` **_of_** something or an `Immutable.Map` **shape**. A little *"googling"* came up empty, unless you want to use Flow, which I do not. So, I wrote `react-immutable-proptypes`.
+I got tired of seeing `React.PropTypes.instanceOf(Immutable.List)` or `React.PropTypes.instanceOf(Immutable.Map)` as PropTypes for components that should be specifying an `Immutable.List` **_of_** something or that an `Immutable.Map` **contains** some keys. A little *"googling"* came up empty, unless you want to use Flow, which I do not. So, I wrote `react-immutable-proptypes`.
 
 Usage is simple, they work with and like any `React.PropType.*` validator.
 
@@ -24,7 +25,7 @@ Usage is simple, they work with and like any `React.PropType.*` validator.
       // ...
       propTypes: {
         myRequiredImmutableList: ImmutablePropTypes.listOf(
-          ImmutablePropTypes.shape({
+          ImmutablePropTypes.contains({
             someNumberProp: React.PropTypes.number.isRequired
           })
         ).isRequired
@@ -72,10 +73,10 @@ React-Immutable-PropTypes has:
 
 * `ImmutbalePropTypes.iterableOf` is the generic form of listOf/mapOf. It is useful when there is no need to validate anything other than Immutable.js compatible (ie. `Immutable.Iterable`). Continue to use `listOf` and/or `mapOf` when you know the type.
 
-* `ImmutablePropTypes.shape` is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `shape` to validate an array via `Immutable.List`.
+* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`.
 
         // ...
-        aList: ImmutablePropTypes.shape({
+        aList: ImmutablePropTypes.contains({
           0: React.PropTypes.number.isRequired,
           1: React.PropTypes.string.isRequired,
           2: React.PropTypes.string

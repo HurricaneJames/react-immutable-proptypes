@@ -14,6 +14,7 @@ var ImmutablePropTypes = {
   setOf:  createSetOfTypeChecker,
   iterableOf: createIterableOfTypeChecker,
   shape:  createShapeTypeChecker,
+  contains: createShapeTypeChecker,
   // Primitive Types
   list:       createImmutableTypeChecker('List', Immutable.List.isList),
   map:        createImmutableTypeChecker('Map', Immutable.Map.isMap),

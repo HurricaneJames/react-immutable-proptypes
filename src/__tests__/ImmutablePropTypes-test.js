@@ -572,7 +572,7 @@ describe('ImmutablePropTypes', function() {
     });
   });
 
-  describe('Shape Types', function() {
+  describe('Shape Types [deprecated]', function() {
     it('should warn for non objects', function() {
       typeCheckFail(
         PropTypes.shape({}),
@@ -675,4 +675,106 @@ describe('ImmutablePropTypes', function() {
     });
   });
 
+  describe('Contains Types', function() {
+    it('should warn for non objects', function() {
+      typeCheckFail(
+        PropTypes.contains({}),
+        'some string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js Iterable.'
+      );
+      typeCheckFail(
+        PropTypes.contains({}),
+        ['array'],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js Iterable.'
+      );
+      typeCheckFail(
+        PropTypes.contains({}),
+        {a: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js Iterable.'
+      );
+    });
+
+    it('should not warn for empty values', function() {
+      typeCheckPass(PropTypes.contains({}), undefined);
+      typeCheckPass(PropTypes.contains({}), null);
+      typeCheckPass(PropTypes.contains({}), Immutable.fromJS({}));
+    });
+
+    it('should not warn for an empty Immutable object', function() {
+      typeCheckPass(PropTypes.contains({}).isRequired, Immutable.fromJS({}));
+    });
+
+    it('should not warn for non specified types', function() {
+      typeCheckPass(PropTypes.contains({}), Immutable.fromJS({key: 1}));
+    });
+
+    it('should not warn for valid types', function() {
+      typeCheckPass(PropTypes.contains({key: React.PropTypes.number}), Immutable.fromJS({key: 1}));
+    });
+
+    it('should ignore null keys', function() {
+      typeCheckPass(PropTypes.contains({key: null}), Immutable.fromJS({key: 1}));
+    });
+
+    it('should warn for required valid types', function() {
+      typeCheckFail(
+        PropTypes.contains({key: React.PropTypes.number.isRequired}),
+        Immutable.fromJS({}),
+        'Required prop `key` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should warn for the first required type', function() {
+      typeCheckFail(
+        PropTypes.contains({
+          key: React.PropTypes.number.isRequired,
+          secondKey: React.PropTypes.number.isRequired
+        }),
+        Immutable.fromJS({}),
+        'Required prop `key` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should warn for invalid key types', function() {
+      typeCheckFail(PropTypes.contains({key: React.PropTypes.number}),
+        Immutable.fromJS({key: 'abc'}),
+        'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(
+        PropTypes.contains(PropTypes.contains({key: React.PropTypes.number})), null
+      );
+      typeCheckPass(
+        PropTypes.contains(PropTypes.contains({key: React.PropTypes.number})), undefined
+      );
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.contains({key: React.PropTypes.number}).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.contains({key: React.PropTypes.number}).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+
+    it('should probably not validate a list, but does', function() {
+      var contains = {
+        0: React.PropTypes.number.isRequired,
+        1: React.PropTypes.string.isRequired,
+        2: React.PropTypes.string
+      };
+      typeCheckPass(PropTypes.contains(contains), new Immutable.List([1, '2']));
+    });
+  });
 });
