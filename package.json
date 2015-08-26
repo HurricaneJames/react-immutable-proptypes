@@ -1,6 +1,6 @@
 {
   "name": "react-immutable-proptypes",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "PropType validators that work with Immutable.js.",
   "main": "dist/ImmutablePropTypes.js",
   "scripts": {
@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/HurricaneJames/react-immutable-proptypes",
   "peerDependencies": {
-    "react": ">=0.11.0",
     "immutable": "^3.6.2"
   },
   "devDependencies": {
@@ -37,7 +36,10 @@
     "eslint": "^0.21.0",
     "eslint-plugin-react": "^2.2.0",
     "expect.js": "^0.3.1",
+    "immutable": "^3.7.4",
     "istanbul": "~0.3.7",
-    "mocha": "^2.0.1"
+    "mocha": "^2.0.1",
+    "react": "0.14.0-beta3",
+    "react-dom": "^0.14.0-beta3"
   }
 }
