@@ -4,16 +4,6 @@
 
 PropType validators that work with Immutable.js.
 
-## Version Updates
-- 1.1.0 added `contains` to replace `shape` validator. `shape` is deprecated and will be removed in v 1.2.0
-- 1.0.0 marked as stable, no other changes
-- 0.1.8 added `setOf` checker. Thanks to [Don Abrams](https://github.com/donabrams)!
-- 0.1.7 added convencience checkers for "primitive" immutable types (map, list, etc...)
-- 0.1.6 added `iterableOf`
-- 0.1.4 added `mapOf`
-- 0.1.3 updated package.json to support React v0.11.0+ (including 0.13.1). Thanks [Andrey Okonetchnikov](https://github.com/okonet)!
-
-
 ## About
 
 I got tired of seeing `React.PropTypes.instanceOf(Immutable.List)` or `React.PropTypes.instanceOf(Immutable.Map)` as PropTypes for components that should be specifying an `Immutable.List` **_of_** something or that an `Immutable.Map` **contains** some keys. A little *"googling"* came up empty, unless you want to use Flow, which I do not. So, I wrote `react-immutable-proptypes`.
