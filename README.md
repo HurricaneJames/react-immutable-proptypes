@@ -82,7 +82,7 @@ React-Immutable-PropTypes has:
           2: React.PropTypes.string
         })
         // ...
-        <SomeComponent aList={new Immutable.List([1, '2'])} />
+        <SomeComponent aList={Immutable.List([1, '2'])} />
 
     That said, don't do this. Please, just... don't.
 
