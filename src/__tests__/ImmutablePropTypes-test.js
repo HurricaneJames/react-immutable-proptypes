@@ -36,6 +36,20 @@ describe('ImmutablePropTypes', function() {
     Immutable = require('immutable');
   });
 
+  describe('PropTypes config', function() {
+    it('should fail if typeChecker is not a function', function() {
+      typeCheckFail(
+        PropTypes.listOf({x: React.PropTypes.string}),
+        Immutable.List([Immutable.Map({x: 'y'})]),
+        'Invalid typeChecker supplied to ' +
+        '`testComponent` for propType `testProp`, expected a function.'
+      );
+      typeCheckPass(
+        PropTypes.listOf(PropTypes.contains({x: React.PropTypes.string})),
+        Immutable.List([Immutable.Map({x: 'y'})]));
+    });
+  });
+
   describe('Primitive Types', function() {
     it('should not warn for valid values', function() {
       typeCheckPass(PropTypes.list, new Immutable.List());
