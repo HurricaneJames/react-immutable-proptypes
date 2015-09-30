@@ -78,6 +78,7 @@ function createImmutableTypeChecker(immutableClassName, immutableClassTypeValida
 }
 
 function createIterableTypeChecker(typeChecker, immutableClassName, immutableClassTypeValidator) {
+
   function validate(props, propName, componentName, location) {
     var propValue = props[propName];
     if (!immutableClassTypeValidator(propValue)) {
@@ -90,6 +91,12 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
     }
     var propValues = propValue.toArray();
     for (var i = 0, len = propValues.length; i < len; i++) {
+      if (typeof typeChecker !== 'function') {
+        return new Error(
+          `Invalid typeChecker supplied to \`${componentName}\` ` +
+          `for propType \`${propName}\`, expected a function.`
+        );
+      }
       var error = typeChecker(propValues, i, componentName, location);
       if (error instanceof Error) {
         return error;
