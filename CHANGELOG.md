@@ -1,4 +1,7 @@
 ## 1.2.x
+- 1.2.3 [Nik Butenko](http://butenko.me/) provided a better .npmignore file
+  - allows devs who want to compile the code to do so
+  - better excludes files that are not needed for distribution
 - 1.2.2 [Nik Butenko](http://butenko.me/) gave us some nice updates ()
   - [Issue #10](https://github.com/HurricaneJames/react-immutable-proptypes/pull/10) now have better errors when typechecker(s) provided in `propTypes` definition is invalid
   - [Issue #9](https://github.com/HurricaneJames/react-immutable-proptypes/pull/9) removed use of `new` Immutable objects in tests
