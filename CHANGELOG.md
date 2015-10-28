@@ -1,7 +1,9 @@
 ## 1.5.0 improved warnings
   - try to specify which Immutable data structure was provided instead of saying `object`.
-## 1.4.0 added support for orderedSetOf and orderedMapOf
-## 1.3.0 added support for record and recordOf type checkers.
+## 1.4.0
+   - added support for orderedSetOf and orderedMapOf
+## 1.3.0
+  - added support for record and recordOf type checkers.
 
 ## 1.2.x
 - 1.2.3 [Nik Butenko](http://butenko.me/) provided a better .npmignore file
