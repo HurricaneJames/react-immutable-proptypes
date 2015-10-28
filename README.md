@@ -54,6 +54,7 @@ React-Immutable-PropTypes has:
         ImmutablePropTypes.stack        // Immutable.Stack.isStack
         ImmutablePropTypes.seq          // Immutable.Seq.isSeq
         ImmutablePropTypes.iterable     // Immutable.Iterable.isIterable
+        ImmutablePropTypes.record       // instanceof Record
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
@@ -62,6 +63,15 @@ React-Immutable-PropTypes has:
 * `ImmutablePropTypes.setOf` is basically the same as `listOf`, but it is specific to `Immutable.Set`.
 
 * `ImmutbalePropTypes.iterableOf` is the generic form of listOf/mapOf. It is useful when there is no need to validate anything other than Immutable.js compatible (ie. `Immutable.Iterable`). Continue to use `listOf` and/or `mapOf` when you know the type.
+
+* `ImmutablePropTypes.recordOf` is like `contains`, except it operates on Record properties.
+
+        // ...
+        aRecord: ImmutablePropTypes.recordOf({
+          keyA: React.PropTypes.string,
+          keyB: ImmutablePropTypes.list.isRequired
+        })
+        // ...
 
 * `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`.
 

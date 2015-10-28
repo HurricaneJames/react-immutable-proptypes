@@ -1,4 +1,5 @@
 ## 1.2.x
+- 1.3.0 added support for record and recordOf type checkers.
 - 1.2.3 [Nik Butenko](http://butenko.me/) provided a better .npmignore file
   - allows devs who want to compile the code to do so
   - better excludes files that are not needed for distribution
