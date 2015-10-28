@@ -13,6 +13,7 @@ var ImmutablePropTypes = {
   mapOf:  createMapOfTypeChecker,
   setOf:  createSetOfTypeChecker,
   iterableOf: createIterableOfTypeChecker,
+  recordOf: createRecordOfTypeChecker,
   shape:  createShapeTypeChecker,
   contains: createShapeTypeChecker,
   // Primitive Types
@@ -23,6 +24,7 @@ var ImmutablePropTypes = {
   orderedSet: createImmutableTypeChecker('OrderedSet', Immutable.OrderedSet.isOrderedSet),
   stack:      createImmutableTypeChecker('Stack', Immutable.Stack.isStack),
   seq:        createImmutableTypeChecker('Seq', Immutable.Seq.isSeq),
+  record:     createImmutableTypeChecker('Record', function(isRecord) { return isRecord instanceof Immutable.Record; }),
   iterable:   createImmutableTypeChecker('Iterable', Immutable.Iterable.isIterable)
 };
 
@@ -120,6 +122,32 @@ function createSetOfTypeChecker(typeChecker) {
 
 function createIterableOfTypeChecker(typeChecker) {
   return createIterableTypeChecker(typeChecker, 'Iterable', Immutable.Iterable.isIterable);
+}
+
+function createRecordOfTypeChecker(recordKeys) {
+  function validate(props, propName, componentName, location) {
+    var propValue = props[propName];
+    var propType = getPropType(propValue);
+    if (!(propValue instanceof Immutable.Record)) {
+      var locationName = location;
+      return new Error(
+        `Invalid ${locationName} \`${propName}\` of type \`${propType}\` ` +
+        `supplied to \`${componentName}\`, expected an Immutable.js Record.`
+      );
+    }
+    for (var key in recordKeys) {
+      var checker = recordKeys[key];
+      if (!checker) {
+        continue;
+      }
+      var mutablePropValue = propValue.toObject();
+      var error = checker(mutablePropValue, key, componentName, location);
+      if (error) {
+        return error;
+      }
+    }
+  }
+  return createChainableTypeChecker(validate);
 }
 
 // there is some irony in the fact that shapeTypes is a standard hash and not an immutable collection

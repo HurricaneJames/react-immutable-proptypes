@@ -57,6 +57,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckPass(PropTypes.map, Immutable.Map());
       typeCheckPass(PropTypes.map, Immutable.OrderedMap());
       typeCheckPass(PropTypes.orderedMap, Immutable.OrderedMap());
+      typeCheckPass(PropTypes.record, new (Immutable.Record({a: 1}))());
       typeCheckPass(PropTypes.set, Immutable.Set());
       typeCheckPass(PropTypes.set, Immutable.OrderedSet());
       typeCheckPass(PropTypes.orderedSet, Immutable.OrderedSet());
@@ -157,6 +158,50 @@ describe('ImmutablePropTypes', function() {
         Immutable.Iterable(),
         'Invalid prop `testProp` of type `object` supplied to ' +
         '`testComponent`, expected `Map`.'
+      );
+    });
+    it('should warn for invalid records', function() {
+      typeCheckFail(
+        PropTypes.record,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected `Record`.'
+      );
+      typeCheckFail(
+        PropTypes.record,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Record`.'
+      );
+      typeCheckFail(
+        PropTypes.record,
+        '',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected `Record`.'
+      );
+      typeCheckFail(
+        PropTypes.record,
+        false,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+        '`testComponent`, expected `Record`.'
+      );
+      typeCheckFail(
+        PropTypes.record,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Record`.'
+      );
+      typeCheckFail(
+        PropTypes.record,
+        Immutable.List(),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Record`.'
+      );
+      typeCheckFail(
+        PropTypes.record,
+        Immutable.Iterable(),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Record`.'
       );
     });
     it('should be implicitly optional and not warn without values', function() {
@@ -581,6 +626,105 @@ describe('ImmutablePropTypes', function() {
       );
       typeCheckFail(
         PropTypes.iterableOf(PropTypes.number).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+  });
+
+  describe('RecordOf Type', function() {
+    it('should warn for non objects', function() {
+      typeCheckFail(
+        PropTypes.recordOf({}),
+        'some string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js Record.'
+      );
+      typeCheckFail(
+        PropTypes.recordOf({}),
+        ['array'],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js Record.'
+      );
+      typeCheckFail(
+        PropTypes.recordOf({}),
+        {a: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js Record.'
+      );
+      typeCheckFail(
+        PropTypes.recordOf({}),
+        Immutable.Map({ a: 1 }),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js Record.'
+      );
+    });
+
+    it('should not warn for empty values', function() {
+      typeCheckPass(PropTypes.recordOf({}), undefined);
+      typeCheckPass(PropTypes.recordOf({}), null);
+    });
+
+    it('should not warn for an empty Record object', function() {
+      typeCheckPass(PropTypes.recordOf({}).isRequired, new (Immutable.Record({}))());
+    });
+
+    it('should not warn for non specified types', function() {
+      typeCheckPass(PropTypes.recordOf({}), new (Immutable.Record({key: 1}))());
+    });
+
+    it('should not warn for valid types', function() {
+      typeCheckPass(PropTypes.recordOf({key: React.PropTypes.number}), new (Immutable.Record({key: 1}))());
+    });
+
+    it('should ignore null keys', function() {
+      typeCheckPass(PropTypes.recordOf({key: null}), new (Immutable.Record({key: 1}))());
+    });
+
+    it('should warn for required valid types', function() {
+      typeCheckFail(
+        PropTypes.recordOf({key: React.PropTypes.number.isRequired}),
+        new (Immutable.Record({}))(),
+        'Required prop `key` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should warn for the first required type', function() {
+      typeCheckFail(
+        PropTypes.recordOf({
+          key: React.PropTypes.number.isRequired,
+          secondKey: React.PropTypes.number.isRequired
+        }),
+        new (Immutable.Record({}))(),
+        'Required prop `key` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should warn for invalid key types', function() {
+      typeCheckFail(PropTypes.recordOf({key: React.PropTypes.number}),
+        new (Immutable.Record({key: 'abc'}))(),
+        'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(
+        PropTypes.recordOf(PropTypes.recordOf({key: React.PropTypes.number})), null
+      );
+      typeCheckPass(
+        PropTypes.recordOf(PropTypes.recordOf({key: React.PropTypes.number})), undefined
+      );
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.recordOf({key: React.PropTypes.number}).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.recordOf({key: React.PropTypes.number}).isRequired,
         undefined,
         requiredMessage
       );
