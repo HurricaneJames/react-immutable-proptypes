@@ -9,15 +9,15 @@ var Immutable = require('immutable');
 var ANONYMOUS = '<<anonymous>>';
 
 var ImmutablePropTypes = {
-  listOf: createListOfTypeChecker,
-  mapOf:  createMapOfTypeChecker,
+  listOf:       createListOfTypeChecker,
+  mapOf:        createMapOfTypeChecker,
   orderedMapOf: createOrderedMapOfTypeChecker,
-  setOf:  createSetOfTypeChecker,
+  setOf:        createSetOfTypeChecker,
   orderedSetOf: createOrderedSetOfTypeChecker,
-  iterableOf: createIterableOfTypeChecker,
-  recordOf: createRecordOfTypeChecker,
-  shape:  createShapeTypeChecker,
-  contains: createShapeTypeChecker,
+  iterableOf:   createIterableOfTypeChecker,
+  recordOf:     createRecordOfTypeChecker,
+  shape:        createShapeTypeChecker,
+  contains:     createShapeTypeChecker,
   // Primitive Types
   list:       createImmutableTypeChecker('List', Immutable.List.isList),
   map:        createImmutableTypeChecker('Map', Immutable.Map.isMap),
@@ -40,6 +40,9 @@ function getPropType(propValue) {
     // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
     // passes PropTypes.object.
     return 'object';
+  }
+  if (propValue instanceof Immutable.Iterable) {
+    return 'Immutable.' + propValue.toSource().split(' ')[0];
   }
   return propType;
 }

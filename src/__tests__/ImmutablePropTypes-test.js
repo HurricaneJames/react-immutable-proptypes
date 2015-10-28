@@ -106,13 +106,13 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.list,
         Immutable.Map(),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Map` supplied to ' +
         '`testComponent`, expected `List`.'
       );
       typeCheckFail(
         PropTypes.list,
         Immutable.Iterable(),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Seq` supplied to ' +
         '`testComponent`, expected `List`.'
       );
     });
@@ -150,13 +150,13 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.map,
         Immutable.List(),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.List` supplied to ' +
         '`testComponent`, expected `Map`.'
       );
       typeCheckFail(
         PropTypes.map,
         Immutable.Iterable(),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Seq` supplied to ' +
         '`testComponent`, expected `Map`.'
       );
     });
@@ -194,13 +194,13 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.record,
         Immutable.List(),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.List` supplied to ' +
         '`testComponent`, expected `Record`.'
       );
       typeCheckFail(
         PropTypes.record,
         Immutable.Iterable(),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Seq` supplied to ' +
         '`testComponent`, expected `Record`.'
       );
     });
@@ -482,7 +482,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.orderedMapOf(PropTypes.number),
         Immutable.fromJS({a: 1, b: 2 }),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Map` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedMap.'
       );
     });
@@ -672,13 +672,13 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.orderedSetOf(PropTypes.number),
         Immutable.List([1, 2, 3]),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.List` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
       typeCheckFail(
         PropTypes.orderedSetOf(PropTypes.number),
         Immutable.Set([1, 2, 3]),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Set` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
     });
@@ -862,7 +862,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.recordOf({}),
         Immutable.Map({ a: 1 }),
-        'Invalid prop `testProp` of type `object` supplied to ' +
+        'Invalid prop `testProp` of type `Immutable.Map` supplied to ' +
         '`testComponent`, expected an Immutable.js Record.'
       );
     });
