@@ -38,8 +38,8 @@
     "expect.js": "^0.3.1",
     "immutable": "^3.7.4",
     "istanbul": "~0.3.7",
-    "mocha": "^2.0.1",
-    "react": "0.14.0-beta3",
-    "react-dom": "^0.14.0-beta3"
+    "mocha": "^2.3.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   }
 }
