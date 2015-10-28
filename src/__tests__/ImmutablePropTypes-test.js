@@ -408,6 +408,104 @@ describe('ImmutablePropTypes', function() {
     });
   });
 
+  describe('OrderedMapOf Type', function() {
+    it('should support the orderedMapOf propTypes', function() {
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.number), Immutable.OrderedMap({1: 1, 2: 2, 3: 3}));
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.string), Immutable.OrderedMap({1: 'a', 2: 'b', 3: 'c'}));
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.oneOf(['a', 'b'])), Immutable.OrderedMap({1: 'a', 2: 'b'}));
+    });
+
+    it('should support orderedMapOf with complex types', function() {
+      typeCheckPass(
+        PropTypes.orderedMapOf(React.PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        Immutable.OrderedMap({1: {a: 1}, 2: {a: 2}})
+      );
+
+      typeCheckPass(
+        PropTypes.orderedMapOf(PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        Immutable.fromJS({1: {a: 1}, 2: {a: 2}}).toOrderedMap()
+      );
+
+      function Thing() {}
+      typeCheckPass(
+        PropTypes.orderedMapOf(React.PropTypes.instanceOf(Thing)),
+        Immutable.OrderedMap({ 1: new Thing(), 2: new Thing() })
+      );
+    });
+
+    it('should warn with invalid items in the map', function() {
+      typeCheckFail(
+        PropTypes.orderedMapOf(React.PropTypes.number),
+        Immutable.OrderedMap({ 1: 1, 2: 2, 3: 'b' }),
+        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should warn with invalid complex types', function() {
+      function Thing() {}
+      var name = Thing.name || '<<anonymous>>';
+
+      typeCheckFail(
+        PropTypes.orderedMapOf(React.PropTypes.instanceOf(Thing)),
+        Immutable.OrderedMap({ 1: new Thing(), 2: 'xyz' }),
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        name + '`.'
+      );
+    });
+
+    it('should warn when passed something other than an Immutable.OrderedMap', function() {
+      typeCheckFail(
+        PropTypes.orderedMapOf(React.PropTypes.number),
+        {'0': 'maybe-array', length: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+      typeCheckFail(
+        PropTypes.orderedMapOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+      typeCheckFail(
+        PropTypes.orderedMapOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+      typeCheckFail(
+        PropTypes.orderedMapOf(PropTypes.number),
+        [1, 2, 3],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+    });
+
+    it('should not warn when passing an empty object', function() {
+      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), Immutable.OrderedMap());
+      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), Immutable.OrderedMap({}));
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), null);
+      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.orderedMapOf(PropTypes.number).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.orderedMapOf(PropTypes.number).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+  });
+
+
   describe('SetOf Type', function() {
     it('should support the setOf propTypes', function() {
       typeCheckPass(PropTypes.setOf(React.PropTypes.number), Immutable.Set([1, 2, 3]));
@@ -494,6 +592,110 @@ describe('ImmutablePropTypes', function() {
       );
       typeCheckFail(
         PropTypes.setOf(PropTypes.number).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+  });
+
+  describe('OrderedSetOf Type', function() {
+    it('should support the orderedSetOf propTypes', function() {
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.number), Immutable.OrderedSet([1, 2, 3]));
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.string), Immutable.OrderedSet(['a', 'b', 'c']));
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.oneOf(['a', 'b'])), Immutable.OrderedSet(['a', 'b']));
+    });
+
+    it('should support orderedSetOf with complex types', function() {
+      typeCheckPass(
+        PropTypes.orderedSetOf(React.PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        Immutable.OrderedSet([{a: 1}, {a: 2}])
+      );
+
+      function Thing() {}
+      typeCheckPass(
+        PropTypes.orderedSetOf(React.PropTypes.instanceOf(Thing)),
+        Immutable.OrderedSet([new Thing(), new Thing() ])
+      );
+    });
+
+    it('should warn with invalid items in the set', function() {
+      typeCheckFail(
+        PropTypes.orderedSetOf(React.PropTypes.number),
+        Immutable.OrderedSet([1, 2, 'b']),
+        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should warn with invalid complex types', function() {
+      function Thing() {}
+      var name = Thing.name || '<<anonymous>>';
+
+      typeCheckFail(
+        PropTypes.orderedSetOf(React.PropTypes.instanceOf(Thing)),
+        Immutable.OrderedSet([new Thing(), 'xyz' ]),
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        name + '`.'
+      );
+    });
+
+    it('should warn when passed something other than an Immutable.OrderedSet', function() {
+      typeCheckFail(
+        PropTypes.orderedSetOf(React.PropTypes.number),
+        {'0': 'maybe-array', length: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedSet.'
+      );
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedSet.'
+      );
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedSet.'
+      );
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number),
+        [1, 2, 3],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedSet.'
+      );
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number),
+        Immutable.List([1, 2, 3]),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedSet.'
+      );
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number),
+        Immutable.Set([1, 2, 3]),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedSet.'
+      );
+    });
+
+    it('should not warn when passing an empty object', function() {
+      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), Immutable.OrderedSet());
+      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), Immutable.OrderedSet([]));
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), null);
+      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.orderedSetOf(PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );

@@ -11,7 +11,9 @@ var ANONYMOUS = '<<anonymous>>';
 var ImmutablePropTypes = {
   listOf: createListOfTypeChecker,
   mapOf:  createMapOfTypeChecker,
+  orderedMapOf: createOrderedMapOfTypeChecker,
   setOf:  createSetOfTypeChecker,
+  orderedSetOf: createOrderedSetOfTypeChecker,
   iterableOf: createIterableOfTypeChecker,
   recordOf: createRecordOfTypeChecker,
   shape:  createShapeTypeChecker,
@@ -116,8 +118,16 @@ function createMapOfTypeChecker(typeChecker) {
   return createIterableTypeChecker(typeChecker, 'Map', Immutable.Map.isMap);
 }
 
+function createOrderedMapOfTypeChecker(typeChecker) {
+  return createIterableTypeChecker(typeChecker, 'OrderedMap', Immutable.OrderedMap.isOrderedMap);
+}
+
 function createSetOfTypeChecker(typeChecker) {
   return createIterableTypeChecker(typeChecker, 'Set', Immutable.Set.isSet);
+}
+
+function createOrderedSetOfTypeChecker(typeChecker) {
+  return createIterableTypeChecker(typeChecker, 'OrderedSet', Immutable.OrderedSet.isOrderedSet);
 }
 
 function createIterableOfTypeChecker(typeChecker) {
