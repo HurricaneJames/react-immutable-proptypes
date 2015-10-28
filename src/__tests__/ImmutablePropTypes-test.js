@@ -479,6 +479,12 @@ describe('ImmutablePropTypes', function() {
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedMap.'
       );
+      typeCheckFail(
+        PropTypes.orderedMapOf(PropTypes.number),
+        Immutable.fromJS({a: 1, b: 2 }),
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
     });
 
     it('should not warn when passing an empty object', function() {
@@ -504,7 +510,6 @@ describe('ImmutablePropTypes', function() {
       );
     });
   });
-
 
   describe('SetOf Type', function() {
     it('should support the setOf propTypes', function() {
