@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import expect from 'expect.js';
 var PropTypes;
 var React;
@@ -209,7 +210,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.listOf(React.PropTypes.instanceOf(Thing)),
         Immutable.List([new Thing(), 'xyz']),
-        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -306,7 +307,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.mapOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Map({ 1: new Thing(), 2: 'xyz' }),
-        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -398,7 +399,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.setOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Set([new Thing(), 'xyz' ]),
-        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -522,14 +523,14 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.iterableOf(React.PropTypes.instanceOf(Thing)),
         Immutable.List([new Thing(), 'xyz']),
-        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
 
       typeCheckFail(
         PropTypes.iterableOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Map({ 1: new Thing(), 2: 'xyz' }),
-        'Invalid prop `1` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
