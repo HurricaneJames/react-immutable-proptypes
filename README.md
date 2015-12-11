@@ -10,51 +10,57 @@ I got tired of seeing `React.PropTypes.instanceOf(Immutable.List)` or `React.Pro
 
 Usage is simple, they work with and like any `React.PropType.*` validator.
 
-    var ImmutablePropTypes = require('react-immutable-proptypes');
-    var MyReactComponent = React.createClass({
-      // ...
-      propTypes: {
+```js
+var ImmutablePropTypes = require('react-immutable-proptypes');
+var MyReactComponent = React.createClass({
+    // ...
+    propTypes: {
         myRequiredImmutableList: ImmutablePropTypes.listOf(
-          ImmutablePropTypes.contains({
-            someNumberProp: React.PropTypes.number.isRequired
-          })
+            ImmutablePropTypes.contains({
+                someNumberProp: React.PropTypes.number.isRequired
+            })
         ).isRequired
-      }
-      // ...
-    });
+    }
+    // ...
+});
+```
 
 Since version 0.1.7 there are convenience helpers for "primitive" Immutable.js objects.
 
-    propTypes: {
-      oldListTypeChecker: React.PropTypes.instanceOf(Immutable.List),
-      anotherWay: ImmutablePropTypes.list,
-      requiredList: ImmutablePropTypes.list.isRequired,
-      mapsToo: ImmutablePropTypes.map,
-      evenIterable: ImmutablePropTypes.iterable
-    }
+```js
+propTypes: {
+    oldListTypeChecker: React.PropTypes.instanceOf(Immutable.List),
+    anotherWay: ImmutablePropTypes.list,
+    requiredList: ImmutablePropTypes.list.isRequired,
+    mapsToo: ImmutablePropTypes.map,
+    evenIterable: ImmutablePropTypes.iterable
+}
+```
 
 
 ## Installation
 
 Installing via [npmjs](https://www.npmjs.com/package/react-immutable-proptypes)
-
-    npm install --save react-immutable-proptypes
+```bash
+npm install --save react-immutable-proptypes
+```
 
 
 ## API
 
 React-Immutable-PropTypes has:
 * Primitive Types
-
-        ImmutablePropTypes.list         // Immutable.List.isList
-        ImmutablePropTypes.map          // Immutable.Map.isMap
-        ImmutablePropTypes.orderedMap   // Immutable.OrderedMap.isOrderedMap
-        ImmutablePropTypes.set          // Immutable.Set.isSet
-        ImmutablePropTypes.orderedSet   // Immutable.OrderedSet.isOrderedSet
-        ImmutablePropTypes.stack        // Immutable.Stack.isStack
-        ImmutablePropTypes.seq          // Immutable.Seq.isSeq
-        ImmutablePropTypes.iterable     // Immutable.Iterable.isIterable
-        ImmutablePropTypes.record       // instanceof Record
+```js
+ImmutablePropTypes.list         // Immutable.List.isList
+ImmutablePropTypes.map          // Immutable.Map.isMap
+ImmutablePropTypes.orderedMap   // Immutable.OrderedMap.isOrderedMap
+ImmutablePropTypes.set          // Immutable.Set.isSet
+ImmutablePropTypes.orderedSet   // Immutable.OrderedSet.isOrderedSet
+ImmutablePropTypes.stack        // Immutable.Stack.isStack
+ImmutablePropTypes.seq          // Immutable.Seq.isSeq
+ImmutablePropTypes.iterable     // Immutable.Iterable.isIterable
+ImmutablePropTypes.record       // instanceof Record
+```
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
@@ -68,25 +74,29 @@ React-Immutable-PropTypes has:
 
 * `ImmutablePropTypes.recordOf` is like `contains`, except it operates on Record properties.
 
-        // ...
-        aRecord: ImmutablePropTypes.recordOf({
-          keyA: React.PropTypes.string,
-          keyB: ImmutablePropTypes.list.isRequired
-        })
-        // ...
+```js
+// ...
+aRecord: ImmutablePropTypes.recordOf({
+    keyA: React.PropTypes.string,
+    keyB: ImmutablePropTypes.list.isRequired
+})
+// ...
+```
 
 * `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`.
 
-        // ...
-        aList: ImmutablePropTypes.contains({
-          0: React.PropTypes.number.isRequired,
-          1: React.PropTypes.string.isRequired,
-          2: React.PropTypes.string
-        })
-        // ...
-        <SomeComponent aList={Immutable.List([1, '2'])} />
+```es6
+// ...
+aList: ImmutablePropTypes.contains({
+    0: React.PropTypes.number.isRequired,
+    1: React.PropTypes.string.isRequired,
+    2: React.PropTypes.string
+})
+// ...
+<SomeComponent aList={Immutable.List([1, '2'])} />
+```
 
-    That said, don't do this. Please, just... don't.
+That said, don't do this. Please, just... don't.
 
 These two validators cover the output of `Immutable.fromJS` on standard JSON data sources.
 
