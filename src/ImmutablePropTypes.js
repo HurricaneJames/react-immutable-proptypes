@@ -50,7 +50,7 @@ function getPropType(propValue) {
 function createChainableTypeChecker(validate) {
   function checkType(isRequired, props, propName, componentName, location) {
     componentName = componentName || ANONYMOUS;
-    if (props[propName] == null) {
+    if (props[propName] === null) {
       var locationName = location;
       if (isRequired) {
         return new Error(
@@ -96,19 +96,18 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
         `\`${propType}\` supplied to \`${componentName}\`, expected an Immutable.js ${immutableClassName}.`
       );
     }
-    var propValues = propValue.toArray();
-    for (var i = 0, len = propValues.length; i < len; i++) {
-      if (typeof typeChecker !== 'function') {
-        return new Error(
-          `Invalid typeChecker supplied to \`${componentName}\` ` +
-          `for propType \`${propName}\`, expected a function.`
-        );
-      }
-      var error = typeChecker(propValues, i, componentName, location);
+    if (typeof typeChecker !== 'function') {
+      return new Error(
+        `Invalid typeChecker supplied to \`${componentName}\` ` +
+        `for propType \`${propName}\`, expected a function.`
+      );
+    }
+    propValue.forEach(function(value, i) {
+      var error = typeChecker(propValue, i, componentName, location);
       if (error instanceof Error) {
         return error;
       }
-    }
+    });
   }
   return createChainableTypeChecker(validate);
 }
