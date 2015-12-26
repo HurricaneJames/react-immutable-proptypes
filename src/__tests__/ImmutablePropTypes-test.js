@@ -268,19 +268,19 @@ describe('ImmutablePropTypes', function() {
         '`testComponent`, expected an Immutable.js List.'
       );
       typeCheckFail(
-        PropTypes.listOf(PropTypes.number),
+        PropTypes.listOf(React.PropTypes.number),
         123,
         'Invalid prop `testProp` of type `number` supplied to ' +
         '`testComponent`, expected an Immutable.js List.'
       );
       typeCheckFail(
-        PropTypes.listOf(PropTypes.number),
+        PropTypes.listOf(React.PropTypes.number),
         'string',
         'Invalid prop `testProp` of type `string` supplied to ' +
         '`testComponent`, expected an Immutable.js List.'
       );
       typeCheckFail(
-        PropTypes.listOf(PropTypes.number),
+        PropTypes.listOf(React.PropTypes.number),
         [1, 2, 3],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js List.'
@@ -288,23 +288,23 @@ describe('ImmutablePropTypes', function() {
     });
 
     it('should not warn when passing an empty array', function() {
-      typeCheckPass(PropTypes.listOf(PropTypes.number), Immutable.List());
-      typeCheckPass(PropTypes.listOf(PropTypes.number), Immutable.List([]));
+      typeCheckPass(PropTypes.listOf(React.PropTypes.number), Immutable.List());
+      typeCheckPass(PropTypes.listOf(React.PropTypes.number), Immutable.List([]));
     });
 
     it('should be implicitly optional and not warn without values', function() {
-      typeCheckPass(PropTypes.listOf(PropTypes.number), null);
-      typeCheckPass(PropTypes.listOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.listOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.listOf(React.PropTypes.number), undefined);
     });
 
     it('should warn for missing required values', function() {
       typeCheckFail(
-        PropTypes.listOf(PropTypes.number).isRequired,
+        PropTypes.listOf(React.PropTypes.number).isRequired,
         null,
         requiredMessage
       );
       typeCheckFail(
-        PropTypes.listOf(PropTypes.number).isRequired,
+        PropTypes.listOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );
@@ -365,19 +365,19 @@ describe('ImmutablePropTypes', function() {
         '`testComponent`, expected an Immutable.js Map.'
       );
       typeCheckFail(
-        PropTypes.mapOf(PropTypes.number),
+        PropTypes.mapOf(React.PropTypes.number),
         123,
         'Invalid prop `testProp` of type `number` supplied to ' +
         '`testComponent`, expected an Immutable.js Map.'
       );
       typeCheckFail(
-        PropTypes.mapOf(PropTypes.number),
+        PropTypes.mapOf(React.PropTypes.number),
         'string',
         'Invalid prop `testProp` of type `string` supplied to ' +
         '`testComponent`, expected an Immutable.js Map.'
       );
       typeCheckFail(
-        PropTypes.mapOf(PropTypes.number),
+        PropTypes.mapOf(React.PropTypes.number),
         [1, 2, 3],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js Map.'
@@ -385,23 +385,23 @@ describe('ImmutablePropTypes', function() {
     });
 
     it('should not warn when passing an empty object', function() {
-      typeCheckPass(PropTypes.mapOf(PropTypes.number), Immutable.Map());
-      typeCheckPass(PropTypes.mapOf(PropTypes.number), Immutable.Map({}));
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.number), Immutable.Map());
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.number), Immutable.Map({}));
     });
 
     it('should be implicitly optional and not warn without values', function() {
-      typeCheckPass(PropTypes.mapOf(PropTypes.number), null);
-      typeCheckPass(PropTypes.mapOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.mapOf(React.PropTypes.number), undefined);
     });
 
     it('should warn for missing required values', function() {
       typeCheckFail(
-        PropTypes.mapOf(PropTypes.number).isRequired,
+        PropTypes.mapOf(React.PropTypes.number).isRequired,
         null,
         requiredMessage
       );
       typeCheckFail(
-        PropTypes.mapOf(PropTypes.number).isRequired,
+        PropTypes.mapOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );
@@ -462,25 +462,25 @@ describe('ImmutablePropTypes', function() {
         '`testComponent`, expected an Immutable.js OrderedMap.'
       );
       typeCheckFail(
-        PropTypes.orderedMapOf(PropTypes.number),
+        PropTypes.orderedMapOf(React.PropTypes.number),
         123,
         'Invalid prop `testProp` of type `number` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedMap.'
       );
       typeCheckFail(
-        PropTypes.orderedMapOf(PropTypes.number),
+        PropTypes.orderedMapOf(React.PropTypes.number),
         'string',
         'Invalid prop `testProp` of type `string` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedMap.'
       );
       typeCheckFail(
-        PropTypes.orderedMapOf(PropTypes.number),
+        PropTypes.orderedMapOf(React.PropTypes.number),
         [1, 2, 3],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedMap.'
       );
       typeCheckFail(
-        PropTypes.orderedMapOf(PropTypes.number),
+        PropTypes.orderedMapOf(React.PropTypes.number),
         Immutable.fromJS({a: 1, b: 2 }),
         'Invalid prop `testProp` of type `Immutable.Map` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedMap.'
@@ -488,23 +488,23 @@ describe('ImmutablePropTypes', function() {
     });
 
     it('should not warn when passing an empty object', function() {
-      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), Immutable.OrderedMap());
-      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), Immutable.OrderedMap({}));
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.number), Immutable.OrderedMap());
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.number), Immutable.OrderedMap({}));
     });
 
     it('should be implicitly optional and not warn without values', function() {
-      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), null);
-      typeCheckPass(PropTypes.orderedMapOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.orderedMapOf(React.PropTypes.number), undefined);
     });
 
     it('should warn for missing required values', function() {
       typeCheckFail(
-        PropTypes.orderedMapOf(PropTypes.number).isRequired,
+        PropTypes.orderedMapOf(React.PropTypes.number).isRequired,
         null,
         requiredMessage
       );
       typeCheckFail(
-        PropTypes.orderedMapOf(PropTypes.number).isRequired,
+        PropTypes.orderedMapOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );
@@ -560,19 +560,19 @@ describe('ImmutablePropTypes', function() {
         '`testComponent`, expected an Immutable.js Set.'
       );
       typeCheckFail(
-        PropTypes.setOf(PropTypes.number),
+        PropTypes.setOf(React.PropTypes.number),
         123,
         'Invalid prop `testProp` of type `number` supplied to ' +
         '`testComponent`, expected an Immutable.js Set.'
       );
       typeCheckFail(
-        PropTypes.setOf(PropTypes.number),
+        PropTypes.setOf(React.PropTypes.number),
         'string',
         'Invalid prop `testProp` of type `string` supplied to ' +
         '`testComponent`, expected an Immutable.js Set.'
       );
       typeCheckFail(
-        PropTypes.setOf(PropTypes.number),
+        PropTypes.setOf(React.PropTypes.number),
         [1, 2, 3],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js Set.'
@@ -580,23 +580,23 @@ describe('ImmutablePropTypes', function() {
     });
 
     it('should not warn when passing an empty object', function() {
-      typeCheckPass(PropTypes.setOf(PropTypes.number), Immutable.Set());
-      typeCheckPass(PropTypes.setOf(PropTypes.number), Immutable.Set([]));
+      typeCheckPass(PropTypes.setOf(React.PropTypes.number), Immutable.Set());
+      typeCheckPass(PropTypes.setOf(React.PropTypes.number), Immutable.Set([]));
     });
 
     it('should be implicitly optional and not warn without values', function() {
-      typeCheckPass(PropTypes.setOf(PropTypes.number), null);
-      typeCheckPass(PropTypes.setOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.setOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.setOf(React.PropTypes.number), undefined);
     });
 
     it('should warn for missing required values', function() {
       typeCheckFail(
-        PropTypes.setOf(PropTypes.number).isRequired,
+        PropTypes.setOf(React.PropTypes.number).isRequired,
         null,
         requiredMessage
       );
       typeCheckFail(
-        PropTypes.setOf(PropTypes.number).isRequired,
+        PropTypes.setOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );
@@ -652,31 +652,31 @@ describe('ImmutablePropTypes', function() {
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number),
+        PropTypes.orderedSetOf(React.PropTypes.number),
         123,
         'Invalid prop `testProp` of type `number` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number),
+        PropTypes.orderedSetOf(React.PropTypes.number),
         'string',
         'Invalid prop `testProp` of type `string` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number),
+        PropTypes.orderedSetOf(React.PropTypes.number),
         [1, 2, 3],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number),
+        PropTypes.orderedSetOf(React.PropTypes.number),
         Immutable.List([1, 2, 3]),
         'Invalid prop `testProp` of type `Immutable.List` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
       );
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number),
+        PropTypes.orderedSetOf(React.PropTypes.number),
         Immutable.Set([1, 2, 3]),
         'Invalid prop `testProp` of type `Immutable.Set` supplied to ' +
         '`testComponent`, expected an Immutable.js OrderedSet.'
@@ -684,23 +684,23 @@ describe('ImmutablePropTypes', function() {
     });
 
     it('should not warn when passing an empty object', function() {
-      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), Immutable.OrderedSet());
-      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), Immutable.OrderedSet([]));
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.number), Immutable.OrderedSet());
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.number), Immutable.OrderedSet([]));
     });
 
     it('should be implicitly optional and not warn without values', function() {
-      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), null);
-      typeCheckPass(PropTypes.orderedSetOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.orderedSetOf(React.PropTypes.number), undefined);
     });
 
     it('should warn for missing required values', function() {
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number).isRequired,
+        PropTypes.orderedSetOf(React.PropTypes.number).isRequired,
         null,
         requiredMessage
       );
       typeCheckFail(
-        PropTypes.orderedSetOf(PropTypes.number).isRequired,
+        PropTypes.orderedSetOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );
@@ -795,19 +795,19 @@ describe('ImmutablePropTypes', function() {
         '`testComponent`, expected an Immutable.js Iterable.'
       );
       typeCheckFail(
-        PropTypes.iterableOf(PropTypes.number),
+        PropTypes.iterableOf(React.PropTypes.number),
         123,
         'Invalid prop `testProp` of type `number` supplied to ' +
         '`testComponent`, expected an Immutable.js Iterable.'
       );
       typeCheckFail(
-        PropTypes.iterableOf(PropTypes.number),
+        PropTypes.iterableOf(React.PropTypes.number),
         'string',
         'Invalid prop `testProp` of type `string` supplied to ' +
         '`testComponent`, expected an Immutable.js Iterable.'
       );
       typeCheckFail(
-        PropTypes.iterableOf(PropTypes.number),
+        PropTypes.iterableOf(React.PropTypes.number),
         [1, 2, 3],
         'Invalid prop `testProp` of type `array` supplied to ' +
         '`testComponent`, expected an Immutable.js Iterable.'
@@ -815,24 +815,24 @@ describe('ImmutablePropTypes', function() {
     });
 
     it('should not warn when passing an empty iterable', function() {
-      typeCheckPass(PropTypes.iterableOf(PropTypes.number), Immutable.List());
-      typeCheckPass(PropTypes.iterableOf(PropTypes.number), Immutable.List([]));
-      typeCheckPass(PropTypes.iterableOf(PropTypes.number), Immutable.Map({}));
+      typeCheckPass(PropTypes.iterableOf(React.PropTypes.number), Immutable.List());
+      typeCheckPass(PropTypes.iterableOf(React.PropTypes.number), Immutable.List([]));
+      typeCheckPass(PropTypes.iterableOf(React.PropTypes.number), Immutable.Map({}));
     });
 
     it('should be implicitly optional and not warn without values', function() {
-      typeCheckPass(PropTypes.iterableOf(PropTypes.number), null);
-      typeCheckPass(PropTypes.iterableOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.iterableOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.iterableOf(React.PropTypes.number), undefined);
     });
 
     it('should warn for missing required values', function() {
       typeCheckFail(
-        PropTypes.iterableOf(PropTypes.number).isRequired,
+        PropTypes.iterableOf(React.PropTypes.number).isRequired,
         null,
         requiredMessage
       );
       typeCheckFail(
-        PropTypes.iterableOf(PropTypes.number).isRequired,
+        PropTypes.iterableOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
       );

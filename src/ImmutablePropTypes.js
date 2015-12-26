@@ -96,14 +96,16 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
         `\`${propType}\` supplied to \`${componentName}\`, expected an Immutable.js ${immutableClassName}.`
       );
     }
+
+    if (typeof typeChecker !== 'function') {
+      return new Error(
+        `Invalid typeChecker supplied to \`${componentName}\` ` +
+        `for propType \`${propName}\`, expected a function.`
+      );
+    }
+
     var propValues = propValue.toArray();
     for (var i = 0, len = propValues.length; i < len; i++) {
-      if (typeof typeChecker !== 'function') {
-        return new Error(
-          `Invalid typeChecker supplied to \`${componentName}\` ` +
-          `for propType \`${propName}\`, expected a function.`
-        );
-      }
       var error = typeChecker(propValues, i, componentName, location);
       if (error instanceof Error) {
         return error;
