@@ -311,6 +311,98 @@ describe('ImmutablePropTypes', function() {
     });
   });
 
+  describe('StackOf Type', function() {
+    it('should support the stackOf propTypes', function() {
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.number), Immutable.Stack([1, 2, 3]));
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.string), Immutable.Stack(['a', 'b', 'c']));
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.oneOf(['a', 'b'])), Immutable.Stack(['a', 'b']));
+    });
+
+    it('should support stackOf with complex types', function() {
+      typeCheckPass(
+        PropTypes.stackOf(React.PropTypes.shape({a: React.PropTypes.number.isRequired})),
+        Immutable.Stack([{a: 1}, {a: 2}])
+      );
+
+      function Thing() {}
+      typeCheckPass(
+        PropTypes.stackOf(React.PropTypes.instanceOf(Thing)),
+        Immutable.Stack([new Thing(), new Thing()])
+      );
+    });
+
+    it('should warn with invalid items in the list', function() {
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number),
+        Immutable.Stack([1, 2, 'b']),
+        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should warn with invalid complex types', function() {
+      function Thing() {}
+      var name = Thing.name || '<<anonymous>>';
+
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.instanceOf(Thing)),
+        Immutable.Stack([new Thing(), 'xyz']),
+        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        name + '`.'
+      );
+    });
+
+    it('should warn when passed something other than an Immutable.Stack', function() {
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number),
+        {'0': 'maybe-array', length: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js Stack.'
+      );
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an Immutable.js Stack.'
+      );
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js Stack.'
+      );
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number),
+        [1, 2, 3],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js Stack.'
+      );
+    });
+
+    it('should not warn when passing an empty array', function() {
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.number), Immutable.Stack());
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.number), Immutable.Stack([]));
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.number), null);
+      typeCheckPass(PropTypes.stackOf(React.PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.stackOf(React.PropTypes.number).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+  });
+
   describe('MapOf Type', function() {
     it('should support the mapOf propTypes', function() {
       typeCheckPass(PropTypes.mapOf(React.PropTypes.number), Immutable.Map({1: 1, 2: 2, 3: 3}));

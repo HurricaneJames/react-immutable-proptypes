@@ -14,6 +14,7 @@ var ImmutablePropTypes = {
   orderedMapOf: createOrderedMapOfTypeChecker,
   setOf:        createSetOfTypeChecker,
   orderedSetOf: createOrderedSetOfTypeChecker,
+  stackOf:      createStackOfTypeChecker,
   iterableOf:   createIterableOfTypeChecker,
   recordOf:     createRecordOfTypeChecker,
   shape:        createShapeTypeChecker,
@@ -133,6 +134,10 @@ function createSetOfTypeChecker(typeChecker) {
 
 function createOrderedSetOfTypeChecker(typeChecker) {
   return createIterableTypeChecker(typeChecker, 'OrderedSet', Immutable.OrderedSet.isOrderedSet);
+}
+
+function createStackOfTypeChecker(typeChecker) {
+  return createIterableTypeChecker(typeChecker, 'Stack', Immutable.Stack.isStack);
 }
 
 function createIterableOfTypeChecker(typeChecker) {
