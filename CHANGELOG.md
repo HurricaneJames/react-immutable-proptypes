@@ -1,3 +1,6 @@
+## 1.6.0 added mapContains type checker
+  - thanks to [Alon Gubkin](https://github.com/alongubkin) for writing the `stackOf` type checker.
+
 ## 1.5.0 improved warnings
   - try to specify which Immutable data structure was provided instead of saying `object`.
 
