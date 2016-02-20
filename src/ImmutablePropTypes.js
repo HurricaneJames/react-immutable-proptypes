@@ -17,8 +17,9 @@ var ImmutablePropTypes = {
   stackOf:      createStackOfTypeChecker,
   iterableOf:   createIterableOfTypeChecker,
   recordOf:     createRecordOfTypeChecker,
-  shape:        createShapeTypeChecker,
-  contains:     createShapeTypeChecker,
+  shape:        createShapeChecker,
+  contains:     createContainsChecker,
+  mapContains:  createMapContainsChecker,
   // Primitive Types
   list:       createImmutableTypeChecker('List', Immutable.List.isList),
   map:        createImmutableTypeChecker('Map', Immutable.Map.isMap),
@@ -171,23 +172,23 @@ function createRecordOfTypeChecker(recordKeys) {
 }
 
 // there is some irony in the fact that shapeTypes is a standard hash and not an immutable collection
-function createShapeTypeChecker(shapeTypes) {
+function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', immutableClassTypeValidator = Immutable.Iterable.isIterable) {
   function validate(props, propName, componentName, location) {
     var propValue = props[propName];
     var propType = getPropType(propValue);
-    if (!Immutable.Iterable.isIterable(propValue)) {
+    if (!immutableClassTypeValidator(propValue)) {
       var locationName = location;
       return new Error(
         `Invalid ${locationName} \`${propName}\` of type \`${propType}\` ` +
-        `supplied to \`${componentName}\`, expected an Immutable.js Iterable.`
+        `supplied to \`${componentName}\`, expected an Immutable.js ${immutableClassName}.`
       );
     }
+    var mutablePropValue = propValue.toObject();
     for (var key in shapeTypes) {
       var checker = shapeTypes[key];
       if (!checker) {
         continue;
       }
-      var mutablePropValue = propValue.toObject();
       var error = checker(mutablePropValue, key, componentName, location);
       if (error) {
         return error;
@@ -197,5 +198,16 @@ function createShapeTypeChecker(shapeTypes) {
   return createChainableTypeChecker(validate);
 }
 
+function createShapeChecker(shapeTypes) {
+  return createShapeTypeChecker(shapeTypes);
+}
+
+function createContainsChecker(shapeTypes) {
+  return createShapeTypeChecker(shapeTypes);
+}
+
+function createMapContainsChecker(shapeTypes) {
+  return createShapeTypeChecker(shapeTypes, 'Map', Immutable.Map.isMap);
+}
 
 module.exports = ImmutablePropTypes;
