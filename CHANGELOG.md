@@ -1,4 +1,7 @@
-## 1.6.0 added mapContains type checker
+## 1.7.0 added mapContains type checker
+  - thanks to [Brian Emil Hartz](https://github.com/hartzis) for adding this long requested feature.
+
+## 1.6.0 added stackOf type checker
   - thanks to [Alon Gubkin](https://github.com/alongubkin) for writing the `stackOf` type checker.
 
 ## 1.5.0 improved warnings
