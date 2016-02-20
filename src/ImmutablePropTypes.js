@@ -18,7 +18,7 @@ var ImmutablePropTypes = {
   iterableOf:   createIterableOfTypeChecker,
   recordOf:     createRecordOfTypeChecker,
   shape:        createShapeChecker,
-  contains:     createContainsChecker,
+  contains:     createShapeChecker,
   mapContains:  createMapContainsChecker,
   // Primitive Types
   list:       createImmutableTypeChecker('List', Immutable.List.isList),
@@ -199,10 +199,6 @@ function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', imm
 }
 
 function createShapeChecker(shapeTypes) {
-  return createShapeTypeChecker(shapeTypes);
-}
-
-function createContainsChecker(shapeTypes) {
   return createShapeTypeChecker(shapeTypes);
 }
 

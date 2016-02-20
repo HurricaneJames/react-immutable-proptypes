@@ -66,7 +66,7 @@ ImmutablePropTypes.mapContains  // Immutable.Map.isMap - contains(shape)
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
-* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map`.
+* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map` It will check that the prop is an Immutable.Map and that the values are of the specified type.
 
 * `ImmutablePropTypes.orderedMapOf` is basically the same as `listOf`, but it is specific to `Immutable.OrderedMap`.
 
@@ -87,7 +87,20 @@ aRecord: ImmutablePropTypes.recordOf({
 // ...
 ```
 
-* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map`(suggested to use `ImmutablePropTypes.mapContains`) or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`. That said, please, just... don't.
+* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`. That said, please, just... don't.
+
+```es6
+// ...
+aMap: ImmutablePropTypes.contains({
+    aList: ImmutablePropTypes.contains({
+        0: React.PropTypes.number,
+        1: React.PropTypes.string,
+        2: React.PropTypes.number.isRequired,
+    }).isRequired,
+})
+// ...
+<SomeComponent aList={Immutable.fromJS({aList: [1, 'two', 3]})} />
+```
 
 * `ImmutablePropTypes.mapContains` is based on `React.PropTypes.shape` and will only work with `Immutable.Map`.
 
