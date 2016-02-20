@@ -60,11 +60,13 @@ ImmutablePropTypes.stack        // Immutable.Stack.isStack
 ImmutablePropTypes.seq          // Immutable.Seq.isSeq
 ImmutablePropTypes.iterable     // Immutable.Iterable.isIterable
 ImmutablePropTypes.record       // instanceof Record
+ImmutablePropTypes.contains     // Immutable.Iterable.isIterable - contains(shape)
+ImmutablePropTypes.mapContains  // Immutable.Map.isMap - contains(shape)
 ```
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
-* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map`.
+* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map` It will check that the prop is an Immutable.Map and that the values are of the specified type.
 
 * `ImmutablePropTypes.orderedMapOf` is basically the same as `listOf`, but it is specific to `Immutable.OrderedMap`.
 
@@ -85,23 +87,33 @@ aRecord: ImmutablePropTypes.recordOf({
 // ...
 ```
 
-* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`.
+* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`. That said, please, just... don't.
 
 ```es6
 // ...
-aList: ImmutablePropTypes.contains({
-    0: React.PropTypes.number.isRequired,
-    1: React.PropTypes.string.isRequired,
-    2: React.PropTypes.string
+aMap: ImmutablePropTypes.contains({
+    aList: ImmutablePropTypes.contains({
+        0: React.PropTypes.number,
+        1: React.PropTypes.string,
+        2: React.PropTypes.number.isRequired,
+    }).isRequired,
 })
 // ...
-<SomeComponent aList={Immutable.List([1, '2'])} />
+<SomeComponent aList={Immutable.fromJS({aList: [1, 'two', 3]})} />
 ```
 
-That said, don't do this. Please, just... don't.
+* `ImmutablePropTypes.mapContains` is based on `React.PropTypes.shape` and will only work with `Immutable.Map`.
+
+```es6
+// ...
+aMap: ImmutablePropTypes.mapContains({
+    aList: ImmutablePropTypes.list.isRequired,
+})
+// ...
+<SomeComponent aList={Immutable.fromJS({aList: [1, 2]})} />
+```
 
 These two validators cover the output of `Immutable.fromJS` on standard JSON data sources.
-
 
 ## RFC
 
