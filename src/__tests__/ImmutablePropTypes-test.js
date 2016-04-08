@@ -243,7 +243,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.listOf(React.PropTypes.number),
         Immutable.List([1, 2, 'b']),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -255,7 +255,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.listOf(React.PropTypes.instanceOf(Thing)),
         Immutable.List([new Thing(), 'xyz']),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -335,7 +335,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.stackOf(React.PropTypes.number),
         Immutable.Stack([1, 2, 'b']),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -347,7 +347,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.stackOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Stack([new Thing(), 'xyz']),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -432,7 +432,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.mapOf(React.PropTypes.number),
         Immutable.Map({ 1: 1, 2: 2, 3: 'b' }),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -444,7 +444,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.mapOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Map({ 1: new Thing(), 2: 'xyz' }),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -529,7 +529,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.orderedMapOf(React.PropTypes.number),
         Immutable.OrderedMap({ 1: 1, 2: 2, 3: 'b' }),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -541,7 +541,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.orderedMapOf(React.PropTypes.instanceOf(Thing)),
         Immutable.OrderedMap({ 1: new Thing(), 2: 'xyz' }),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -627,7 +627,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.setOf(React.PropTypes.number),
         Immutable.Set([1, 2, 'b']),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -639,7 +639,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.setOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Set([new Thing(), 'xyz' ]),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -719,7 +719,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.orderedSetOf(React.PropTypes.number),
         Immutable.OrderedSet([1, 2, 'b']),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -731,7 +731,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.orderedSetOf(React.PropTypes.instanceOf(Thing)),
         Immutable.OrderedSet([new Thing(), 'xyz' ]),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -848,14 +848,14 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.iterableOf(React.PropTypes.number),
         Immutable.List([1, 2, 'b']),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
 
       typeCheckFail(
         PropTypes.iterableOf(React.PropTypes.number),
         Immutable.Map({ 1: 1, 2: 2, 3: 'b' }),
-        'Invalid prop `2` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp[2]` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -867,14 +867,14 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.iterableOf(React.PropTypes.instanceOf(Thing)),
         Immutable.List([new Thing(), 'xyz']),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
 
       typeCheckFail(
         PropTypes.iterableOf(React.PropTypes.instanceOf(Thing)),
         Immutable.Map({ 1: new Thing(), 2: 'xyz' }),
-        'Invalid prop `1` of type `String` supplied to `testComponent`, expected instance of `' +
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' +
         name + '`.'
       );
     });
@@ -984,7 +984,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.recordOf({key: React.PropTypes.number.isRequired}),
         new (Immutable.Record({}))(),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
@@ -995,14 +995,14 @@ describe('ImmutablePropTypes', function() {
           secondKey: React.PropTypes.number.isRequired
         }),
         new (Immutable.Record({}))(),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
     it('should warn for invalid key types', function() {
       typeCheckFail(PropTypes.recordOf({key: React.PropTypes.number}),
         new (Immutable.Record({key: 'abc'}))(),
-        'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -1078,7 +1078,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.shape({key: React.PropTypes.number.isRequired}),
         Immutable.fromJS({}),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
@@ -1089,14 +1089,14 @@ describe('ImmutablePropTypes', function() {
           secondKey: React.PropTypes.number.isRequired
         }),
         Immutable.fromJS({}),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
     it('should warn for invalid key types', function() {
       typeCheckFail(PropTypes.shape({key: React.PropTypes.number}),
         Immutable.fromJS({key: 'abc'}),
-        'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -1181,7 +1181,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.contains({key: React.PropTypes.number.isRequired}),
         Immutable.fromJS({}),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
@@ -1192,14 +1192,14 @@ describe('ImmutablePropTypes', function() {
           secondKey: React.PropTypes.number.isRequired
         }),
         Immutable.fromJS({}),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
     it('should warn for invalid key types', function() {
       typeCheckFail(PropTypes.contains({key: React.PropTypes.number}),
         Immutable.fromJS({key: 'abc'}),
-        'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
@@ -1295,7 +1295,7 @@ describe('ImmutablePropTypes', function() {
           })).isRequired
         }),
         Immutable.fromJS({data: [{id: 1}, {}]}),
-        'Required prop `id` was not specified in `testComponent`.'
+        'Required prop `testProp.data[1].id` was not specified in `testComponent`.'
       );
     });
 
@@ -1307,7 +1307,7 @@ describe('ImmutablePropTypes', function() {
       typeCheckFail(
         PropTypes.mapContains({key: React.PropTypes.number.isRequired}),
         Immutable.fromJS({}),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
@@ -1318,14 +1318,14 @@ describe('ImmutablePropTypes', function() {
           secondKey: React.PropTypes.number.isRequired
         }),
         Immutable.fromJS({}),
-        'Required prop `key` was not specified in `testComponent`.'
+        'Required prop `testProp.key` was not specified in `testComponent`.'
       );
     });
 
     it('should warn for invalid key types', function() {
       typeCheckFail(PropTypes.mapContains({key: React.PropTypes.number}),
         Immutable.fromJS({key: 'abc'}),
-        'Invalid prop `key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
         'expected `number`.'
       );
     });
