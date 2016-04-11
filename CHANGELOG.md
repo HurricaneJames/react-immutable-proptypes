@@ -1,3 +1,6 @@
+## 1.7.1 added better warnings
+  - thanks to [Monday Chen](https://github.com/mondaychen) for adding this new feature.
+
 ## 1.7.0 added mapContains type checker
   - thanks to [Brian Emil Hartz](https://github.com/hartzis) for adding this long requested feature.
 
