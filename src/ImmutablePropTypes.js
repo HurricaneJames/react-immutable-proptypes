@@ -50,18 +50,19 @@ function getPropType(propValue) {
 }
 
 function createChainableTypeChecker(validate) {
-  function checkType(isRequired, props, propName, componentName, location) {
+  function checkType(isRequired, props, propName, componentName, location, propFullName) {
+    propFullName = propFullName || propName;
     componentName = componentName || ANONYMOUS;
     if (props[propName] == null) {
       var locationName = location;
       if (isRequired) {
         return new Error(
-          `Required ${locationName} \`${propName}\` was not specified in ` +
+          `Required ${locationName} \`${propFullName}\` was not specified in ` +
           `\`${componentName}\`.`
         );
       }
     } else {
-      return validate(props, propName, componentName, location);
+      return validate(props, propName, componentName, location, propFullName);
     }
   }
 
@@ -72,12 +73,12 @@ function createChainableTypeChecker(validate) {
 }
 
 function createImmutableTypeChecker(immutableClassName, immutableClassTypeValidator) {
-  function validate(props, propName, componentName, location) {
+  function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
     if(!immutableClassTypeValidator(propValue)) {
       var propType = getPropType(propValue);
       return new Error(
-        `Invalid ${location} \`${propName}\` of type \`${propType}\` ` +
+        `Invalid ${location} \`${propFullName}\` of type \`${propType}\` ` +
         `supplied to \`${componentName}\`, expected \`${immutableClassName}\`.`
       );
     }
@@ -88,13 +89,13 @@ function createImmutableTypeChecker(immutableClassName, immutableClassTypeValida
 
 function createIterableTypeChecker(typeChecker, immutableClassName, immutableClassTypeValidator) {
 
-  function validate(props, propName, componentName, location) {
+  function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
     if (!immutableClassTypeValidator(propValue)) {
       var locationName = location;
       var propType = getPropType(propValue);
       return new Error(
-        `Invalid ${locationName} \`${propName}\` of type ` +
+        `Invalid ${locationName} \`${propFullName}\` of type ` +
         `\`${propType}\` supplied to \`${componentName}\`, expected an Immutable.js ${immutableClassName}.`
       );
     }
@@ -102,13 +103,13 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
     if (typeof typeChecker !== 'function') {
       return new Error(
         `Invalid typeChecker supplied to \`${componentName}\` ` +
-        `for propType \`${propName}\`, expected a function.`
+        `for propType \`${propFullName}\`, expected a function.`
       );
     }
 
     var propValues = propValue.toArray();
     for (var i = 0, len = propValues.length; i < len; i++) {
-      var error = typeChecker(propValues, i, componentName, location);
+      var error = typeChecker(propValues, i, componentName, location, `${propFullName}[${i}]`);
       if (error instanceof Error) {
         return error;
       }
@@ -146,13 +147,13 @@ function createIterableOfTypeChecker(typeChecker) {
 }
 
 function createRecordOfTypeChecker(recordKeys) {
-  function validate(props, propName, componentName, location) {
+  function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
     var propType = getPropType(propValue);
     if (!(propValue instanceof Immutable.Record)) {
       var locationName = location;
       return new Error(
-        `Invalid ${locationName} \`${propName}\` of type \`${propType}\` ` +
+        `Invalid ${locationName} \`${propFullName}\` of type \`${propType}\` ` +
         `supplied to \`${componentName}\`, expected an Immutable.js Record.`
       );
     }
@@ -162,7 +163,7 @@ function createRecordOfTypeChecker(recordKeys) {
         continue;
       }
       var mutablePropValue = propValue.toObject();
-      var error = checker(mutablePropValue, key, componentName, location);
+      var error = checker(mutablePropValue, key, componentName, location, `${propFullName}.${key}`);
       if (error) {
         return error;
       }
@@ -173,13 +174,13 @@ function createRecordOfTypeChecker(recordKeys) {
 
 // there is some irony in the fact that shapeTypes is a standard hash and not an immutable collection
 function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', immutableClassTypeValidator = Immutable.Iterable.isIterable) {
-  function validate(props, propName, componentName, location) {
+  function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
     var propType = getPropType(propValue);
     if (!immutableClassTypeValidator(propValue)) {
       var locationName = location;
       return new Error(
-        `Invalid ${locationName} \`${propName}\` of type \`${propType}\` ` +
+        `Invalid ${locationName} \`${propFullName}\` of type \`${propType}\` ` +
         `supplied to \`${componentName}\`, expected an Immutable.js ${immutableClassName}.`
       );
     }
@@ -189,7 +190,7 @@ function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', imm
       if (!checker) {
         continue;
       }
-      var error = checker(mutablePropValue, key, componentName, location);
+      var error = checker(mutablePropValue, key, componentName, location, `${propFullName}.${key}`);
       if (error) {
         return error;
       }
