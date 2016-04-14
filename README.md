@@ -74,7 +74,7 @@ ImmutablePropTypes.mapContains  // Immutable.Map.isMap - contains(shape)
 
 * `ImmutablePropTypes.stackOf` is basically the same as `listOf`, but it is specific to `Immutable.Stack`.
 
-* `ImmutbalePropTypes.iterableOf` is the generic form of listOf/mapOf. It is useful when there is no need to validate anything other than Immutable.js compatible (ie. `Immutable.Iterable`). Continue to use `listOf` and/or `mapOf` when you know the type.
+* `ImmutablePropTypes.iterableOf` is the generic form of listOf/mapOf. It is useful when there is no need to validate anything other than Immutable.js compatible (ie. `Immutable.Iterable`). Continue to use `listOf` and/or `mapOf` when you know the type.
 
 * `ImmutablePropTypes.recordOf` is like `contains`, except it operates on Record properties.
 
