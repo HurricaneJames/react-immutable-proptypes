@@ -118,16 +118,47 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
   return createChainableTypeChecker(validate);
 }
 
+function createKeysTypeChecker(typeChecker) {
+
+  function validate(props, propName, componentName, location, propFullName) {
+    var propValue = props[propName];
+    if (typeof typeChecker !== 'function') {
+      return new Error(
+          `Invalid keysTypeChecker (optional second argument) supplied to \`${componentName}\` ` +
+          `for propType \`${propFullName}\`, expected a function.`
+      );
+    }
+
+    var keys = propValue.keySeq().toArray();
+    for (var i = 0, len = keys.length; i < len; i++) {
+      var error = typeChecker(keys, i, componentName, location, `${propFullName} -> key(${keys[i]})`);
+      if (error instanceof Error) {
+        return error;
+      }
+    }
+  }
+  return createChainableTypeChecker(validate);
+}
+
 function createListOfTypeChecker(typeChecker) {
   return createIterableTypeChecker(typeChecker, 'List', Immutable.List.isList);
 }
 
-function createMapOfTypeChecker(typeChecker) {
-  return createIterableTypeChecker(typeChecker, 'Map', Immutable.Map.isMap);
+function createMapOfTypeCheckerFactory(valuesTypeChecker, keysTypeChecker, immutableClassName, immutableClassTypeValidator) {
+  function validate(...args) {
+    return createIterableTypeChecker(valuesTypeChecker, immutableClassName, immutableClassTypeValidator)(...args)
+        || keysTypeChecker && createKeysTypeChecker(keysTypeChecker)(...args)
+  }
+
+  return createChainableTypeChecker(validate);
 }
 
-function createOrderedMapOfTypeChecker(typeChecker) {
-  return createIterableTypeChecker(typeChecker, 'OrderedMap', Immutable.OrderedMap.isOrderedMap);
+function createMapOfTypeChecker(valuesTypeChecker, keysTypeChecker) {
+  return createMapOfTypeCheckerFactory(valuesTypeChecker, keysTypeChecker, 'Map', Immutable.Map.isMap);
+}
+
+function createOrderedMapOfTypeChecker(valuesTypeChecker, keysTypeChecker) {
+  return createMapOfTypeCheckerFactory(valuesTypeChecker, keysTypeChecker, 'OrderedMap', Immutable.OrderedMap.isOrderedMap);
 }
 
 function createSetOfTypeChecker(typeChecker) {
