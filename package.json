@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/HurricaneJames/react-immutable-proptypes",
   "peerDependencies": {
-    "immutable": "^3.6.2"
+    "immutable": ">=3.6.2"
   },
   "devDependencies": {
     "babel": "^4.6.6",
