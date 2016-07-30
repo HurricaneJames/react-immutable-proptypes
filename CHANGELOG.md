@@ -1,3 +1,7 @@
+## 1.7.2
+  - [Lexicality](https://github.com/Lexicality) added support for Immutable > 3.6.2
+  - [jsdf](https://github.com/jsdf) gave us a nice performance boost by only generating error messages when they are needed
+
 ## 1.7.1 added better warnings
   - thanks to [Monday Chen](https://github.com/mondaychen) for adding this new feature.
 
