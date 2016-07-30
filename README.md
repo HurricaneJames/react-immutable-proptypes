@@ -64,6 +64,21 @@ ImmutablePropTypes.contains     // Immutable.Iterable.isIterable - contains(shap
 ImmutablePropTypes.mapContains  // Immutable.Map.isMap - contains(shape)
 ```
 
+* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In my usage it is the most used validator, as I'm often trying to validate that a map has certain properties with certain values.
+
+```es6
+// ...
+aMap: ImmutablePropTypes.contains({
+    aList: ImmutablePropTypes.contains({
+        0: React.PropTypes.number,
+        1: React.PropTypes.string,
+        2: React.PropTypes.number.isRequired,
+    }).isRequired,
+})
+// ...
+<SomeComponent aList={Immutable.fromJS({aList: [1, 'two', 3]})} />
+```
+
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
 * `ImmutablePropTypes.mapOf` allows you to control both map values nad keys (in Immutable.Map, keys could be _anything_ including another Immutable collections). It accepts two arguments - first one for values, second one for keys (optional). If you are interested in validation of keys only, just pass `React.PropTypes.any` as the first argument.
@@ -102,21 +117,6 @@ aRecord: ImmutablePropTypes.recordOf({
     keyB: ImmutablePropTypes.list.isRequired
 })
 // ...
-```
-
-* `ImmutablePropTypes.contains` (formerly `shape`) is based on `React.PropTypes.shape` and will try to work with any `Immutable.Iterable`. In practice, I would recommend limiting this to `Immutable.Map` or `Immutable.OrderedMap`. However, it is possible to abuse `contains` to validate an array via `Immutable.List`. That said, please, just... don't.
-
-```es6
-// ...
-aMap: ImmutablePropTypes.contains({
-    aList: ImmutablePropTypes.contains({
-        0: React.PropTypes.number,
-        1: React.PropTypes.string,
-        2: React.PropTypes.number.isRequired,
-    }).isRequired,
-})
-// ...
-<SomeComponent aList={Immutable.fromJS({aList: [1, 'two', 3]})} />
 ```
 
 * `ImmutablePropTypes.mapContains` is based on `React.PropTypes.shape` and will only work with `Immutable.Map`.

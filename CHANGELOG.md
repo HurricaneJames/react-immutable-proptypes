@@ -1,3 +1,6 @@
+## 2.0.0
+  - [Aldredcz](https://github.com/Aldredcz) made map key validation happen
+
 ## 1.7.2
   - [Lexicality](https://github.com/Lexicality) added support for Immutable > 3.6.2
   - [jsdf](https://github.com/jsdf) gave us a nice performance boost by only generating error messages when they are needed
