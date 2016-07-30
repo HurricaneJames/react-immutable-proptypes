@@ -149,8 +149,8 @@ function createIterableOfTypeChecker(typeChecker) {
 function createRecordOfTypeChecker(recordKeys) {
   function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
-    var propType = getPropType(propValue);
     if (!(propValue instanceof Immutable.Record)) {
+      var propType = getPropType(propValue);
       var locationName = location;
       return new Error(
         `Invalid ${locationName} \`${propFullName}\` of type \`${propType}\` ` +
@@ -176,8 +176,8 @@ function createRecordOfTypeChecker(recordKeys) {
 function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', immutableClassTypeValidator = Immutable.Iterable.isIterable) {
   function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
-    var propType = getPropType(propValue);
     if (!immutableClassTypeValidator(propValue)) {
+      var propType = getPropType(propValue);
       var locationName = location;
       return new Error(
         `Invalid ${locationName} \`${propFullName}\` of type \`${propType}\` ` +
