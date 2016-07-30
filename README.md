@@ -66,9 +66,26 @@ ImmutablePropTypes.mapContains  // Immutable.Map.isMap - contains(shape)
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
-* `ImmutablePropTypes.mapOf` is basically the same as `listOf`, but it is specific to `Immutable.Map` It will check that the prop is an Immutable.Map and that the values are of the specified type.
+* `ImmutablePropTypes.mapOf` allows you to control both map values nad keys (in Immutable.Map, keys could be _anything_ including another Immutable collections). It accepts two arguments - first one for values, second one for keys (optional). If you are interested in validation of keys only, just pass `React.PropTypes.any` as the first argument.
 
-* `ImmutablePropTypes.orderedMapOf` is basically the same as `listOf`, but it is specific to `Immutable.OrderedMap`.
+```es6
+// ...
+aMap: ImmutablePropTypes.mapOf(
+    React.PropTypes.any, // validation for values
+    ImmutablePropTypes.mapContains({ // validation for keys
+        a: React.PropTypes.number.isRequired,
+        b: React.PropTypes.string
+    })
+)
+// ...
+const aMap = Immutable.Map([
+    [Immutable.Map({a: 1, b: '2'}), 'foo'],
+    [Immutable.Map({a: 3}), [1, '2', 3]]
+]);
+<SomeComponent aMap={aMap} />
+```
+
+* `ImmutablePropTypes.orderedMapOf` is basically the same as `mapOf`, but it is specific to `Immutable.OrderedMap`.
 
 * `ImmutablePropTypes.orderedSetOf` is basically the same as `listOf`, but it is specific to `Immutable.OrderedSet`.
 

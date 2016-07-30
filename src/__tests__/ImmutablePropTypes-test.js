@@ -498,6 +498,88 @@ describe('ImmutablePropTypes', function() {
         requiredMessage
       );
     });
+
+    it('should support keys validation by passing typeChecker as a second argument', function() {
+      typeCheckPass(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          React.PropTypes.string
+        ),
+        Immutable.Map({a: 1, b: 2})
+      );
+      typeCheckPass(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          React.PropTypes.number
+        ),
+        Immutable.Map([[1, 1], [1, 2]])
+      );
+      typeCheckPass(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          React.PropTypes.function
+        ),
+        Immutable.Map([[() => 1 + 1, 1], [(foo) => 'bar', 2]])
+      );
+    });
+
+    it('should support keys validation with Immutable keys', function() {
+      typeCheckPass(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          PropTypes.mapContains({
+            a: React.PropTypes.number.isRequired,
+            b: React.PropTypes.string
+          })
+        ),
+        Immutable.Map([
+          [Immutable.Map({a: 1, b: '2'}), 1],
+          [Immutable.Map({a: 3}), 2]
+        ])
+      );
+    });
+
+    it('should warn with invalid keys in the map', function() {
+      typeCheckFail(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          React.PropTypes.number
+        ),
+        Immutable.Map({a: 1, b: 2}),
+        'Invalid prop `testProp -> key(a)` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+
+      typeCheckFail(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          React.PropTypes.string
+        ),
+        Immutable.Map([
+          [{a: 1}, 2],
+          ['a', 1]
+        ]),
+        'Invalid prop `testProp -> key([object Object])` of type `object` supplied to `testComponent`, ' +
+        'expected `string`.'
+      );
+    });
+
+    it('should cause inner warning with invalid immutable key in the map', function() {
+      typeCheckFail(
+        PropTypes.mapOf(
+          React.PropTypes.any,
+          PropTypes.mapContains({
+            a: React.PropTypes.number.isRequired,
+            b: React.PropTypes.string
+          })
+        ),
+        Immutable.Map([
+          [Immutable.Map({b: '2'}), 1],
+          [Immutable.Map({a: 3}), 2]
+        ]),
+        'Required prop `testProp -> key(Map { "b": "2" }).a` was not specified in `testComponent`.'
+      );
+    });
   });
 
   describe('OrderedMapOf Type', function() {
@@ -599,6 +681,88 @@ describe('ImmutablePropTypes', function() {
         PropTypes.orderedMapOf(React.PropTypes.number).isRequired,
         undefined,
         requiredMessage
+      );
+    });
+
+    it('should support keys validation by passing typeChecker as a second argument', function() {
+      typeCheckPass(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          React.PropTypes.string
+        ),
+        Immutable.OrderedMap({a: 1, b: 2})
+      );
+      typeCheckPass(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          React.PropTypes.number
+        ),
+        Immutable.OrderedMap([[1, 1], [1, 2]])
+      );
+      typeCheckPass(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          React.PropTypes.function
+        ),
+        Immutable.OrderedMap([[() => 1 + 1, 1], [(foo) => 'bar', 2]])
+      );
+    });
+
+    it('should support keys validation with Immutable keys', function() {
+      typeCheckPass(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          PropTypes.mapContains({
+            a: React.PropTypes.number.isRequired,
+            b: React.PropTypes.string
+          })
+        ),
+        Immutable.OrderedMap([
+          [Immutable.Map({a: 1, b: '2'}), 1],
+          [Immutable.Map({a: 3}), 2]
+        ])
+      );
+    });
+
+    it('should warn with invalid keys in the map', function() {
+      typeCheckFail(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          React.PropTypes.number
+        ),
+        Immutable.OrderedMap({a: 1, b: 2}),
+        'Invalid prop `testProp -> key(a)` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+
+      typeCheckFail(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          React.PropTypes.string
+        ),
+        Immutable.OrderedMap([
+          [{a: 1}, 2],
+          ['a', 1]
+        ]),
+        'Invalid prop `testProp -> key([object Object])` of type `object` supplied to `testComponent`, ' +
+        'expected `string`.'
+      );
+    });
+
+    it('should cause inner warning with invalid immutable key in the map', function() {
+      typeCheckFail(
+        PropTypes.orderedMapOf(
+          React.PropTypes.any,
+          PropTypes.mapContains({
+            a: React.PropTypes.number.isRequired,
+            b: React.PropTypes.string
+          })
+        ),
+        Immutable.OrderedMap([
+          [Immutable.Map({b: '2'}), 1],
+          [Immutable.Map({a: 3}), 2]
+        ]),
+        'Required prop `testProp -> key(Map { "b": "2" }).a` was not specified in `testComponent`.'
       );
     });
   });
