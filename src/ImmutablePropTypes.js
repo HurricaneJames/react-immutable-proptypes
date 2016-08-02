@@ -50,7 +50,7 @@ function getPropType(propValue) {
 }
 
 function createChainableTypeChecker(validate) {
-  function checkType(isRequired, props, propName, componentName, location, propFullName) {
+  function checkType(isRequired, props, propName, componentName, location, propFullName, ...rest) {
     propFullName = propFullName || propName;
     componentName = componentName || ANONYMOUS;
     if (props[propName] == null) {
@@ -62,7 +62,7 @@ function createChainableTypeChecker(validate) {
         );
       }
     } else {
-      return validate(props, propName, componentName, location, propFullName);
+      return validate(props, propName, componentName, location, propFullName, ...rest);
     }
   }
 
@@ -89,7 +89,7 @@ function createImmutableTypeChecker(immutableClassName, immutableClassTypeValida
 
 function createIterableTypeChecker(typeChecker, immutableClassName, immutableClassTypeValidator) {
 
-  function validate(props, propName, componentName, location, propFullName) {
+  function validate(props, propName, componentName, location, propFullName, ...rest) {
     var propValue = props[propName];
     if (!immutableClassTypeValidator(propValue)) {
       var locationName = location;
@@ -109,7 +109,7 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
 
     var propValues = propValue.toArray();
     for (var i = 0, len = propValues.length; i < len; i++) {
-      var error = typeChecker(propValues, i, componentName, location, `${propFullName}[${i}]`);
+      var error = typeChecker(propValues, i, componentName, location, `${propFullName}[${i}]`, ...rest);
       if (error instanceof Error) {
         return error;
       }
@@ -120,7 +120,7 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
 
 function createKeysTypeChecker(typeChecker) {
 
-  function validate(props, propName, componentName, location, propFullName) {
+  function validate(props, propName, componentName, location, propFullName, ...rest) {
     var propValue = props[propName];
     if (typeof typeChecker !== 'function') {
       return new Error(
@@ -131,7 +131,7 @@ function createKeysTypeChecker(typeChecker) {
 
     var keys = propValue.keySeq().toArray();
     for (var i = 0, len = keys.length; i < len; i++) {
-      var error = typeChecker(keys, i, componentName, location, `${propFullName} -> key(${keys[i]})`);
+      var error = typeChecker(keys, i, componentName, location, `${propFullName} -> key(${keys[i]})`, ...rest);
       if (error instanceof Error) {
         return error;
       }
@@ -178,7 +178,7 @@ function createIterableOfTypeChecker(typeChecker) {
 }
 
 function createRecordOfTypeChecker(recordKeys) {
-  function validate(props, propName, componentName, location, propFullName) {
+  function validate(props, propName, componentName, location, propFullName, ...rest) {
     var propValue = props[propName];
     if (!(propValue instanceof Immutable.Record)) {
       var propType = getPropType(propValue);
@@ -194,7 +194,7 @@ function createRecordOfTypeChecker(recordKeys) {
         continue;
       }
       var mutablePropValue = propValue.toObject();
-      var error = checker(mutablePropValue, key, componentName, location, `${propFullName}.${key}`);
+      var error = checker(mutablePropValue, key, componentName, location, `${propFullName}.${key}`, ...rest);
       if (error) {
         return error;
       }
@@ -205,7 +205,7 @@ function createRecordOfTypeChecker(recordKeys) {
 
 // there is some irony in the fact that shapeTypes is a standard hash and not an immutable collection
 function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', immutableClassTypeValidator = Immutable.Iterable.isIterable) {
-  function validate(props, propName, componentName, location, propFullName) {
+  function validate(props, propName, componentName, location, propFullName, ...rest) {
     var propValue = props[propName];
     if (!immutableClassTypeValidator(propValue)) {
       var propType = getPropType(propValue);
@@ -221,7 +221,7 @@ function createShapeTypeChecker(shapeTypes, immutableClassName = 'Iterable', imm
       if (!checker) {
         continue;
       }
-      var error = checker(mutablePropValue, key, componentName, location, `${propFullName}.${key}`);
+      var error = checker(mutablePropValue, key, componentName, location, `${propFullName}.${key}`, ...rest);
       if (error) {
         return error;
       }
