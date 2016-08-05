@@ -1,3 +1,6 @@
+## 2.1.0
+  - fix the new React 15.3.x PropType warnings
+
 ## 2.0.0
   - [Aldredcz](https://github.com/Aldredcz) made map key validation happen
 
