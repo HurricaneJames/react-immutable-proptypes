@@ -81,7 +81,7 @@ aMap: ImmutablePropTypes.contains({
 
 * `ImmutablePropTypes.listOf` is based on `React.PropTypes.array` and is specific to `Immutable.List`.
 
-* `ImmutablePropTypes.mapOf` allows you to control both map values nad keys (in Immutable.Map, keys could be _anything_ including another Immutable collections). It accepts two arguments - first one for values, second one for keys (optional). If you are interested in validation of keys only, just pass `React.PropTypes.any` as the first argument.
+* `ImmutablePropTypes.mapOf` allows you to control both map values and keys (in Immutable.Map, keys could be _anything_ including another Immutable collections). It accepts two arguments - first one for values, second one for keys (optional). If you are interested in validation of keys only, just pass `React.PropTypes.any` as the first argument.
 
 ```es6
 // ...
