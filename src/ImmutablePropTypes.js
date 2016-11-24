@@ -8,29 +8,66 @@ var Immutable = require('immutable');
 
 var ANONYMOUS = '<<anonymous>>';
 
-var ImmutablePropTypes = {
-  listOf:       createListOfTypeChecker,
-  mapOf:        createMapOfTypeChecker,
-  orderedMapOf: createOrderedMapOfTypeChecker,
-  setOf:        createSetOfTypeChecker,
-  orderedSetOf: createOrderedSetOfTypeChecker,
-  stackOf:      createStackOfTypeChecker,
-  iterableOf:   createIterableOfTypeChecker,
-  recordOf:     createRecordOfTypeChecker,
-  shape:        createShapeChecker,
-  contains:     createShapeChecker,
-  mapContains:  createMapContainsChecker,
-  // Primitive Types
-  list:       createImmutableTypeChecker('List', Immutable.List.isList),
-  map:        createImmutableTypeChecker('Map', Immutable.Map.isMap),
-  orderedMap: createImmutableTypeChecker('OrderedMap', Immutable.OrderedMap.isOrderedMap),
-  set:        createImmutableTypeChecker('Set', Immutable.Set.isSet),
-  orderedSet: createImmutableTypeChecker('OrderedSet', Immutable.OrderedSet.isOrderedSet),
-  stack:      createImmutableTypeChecker('Stack', Immutable.Stack.isStack),
-  seq:        createImmutableTypeChecker('Seq', Immutable.Seq.isSeq),
-  record:     createImmutableTypeChecker('Record', function(isRecord) { return isRecord instanceof Immutable.Record; }),
-  iterable:   createImmutableTypeChecker('Iterable', Immutable.Iterable.isIterable)
-};
+var ImmutablePropTypes;
+
+if (process.env.NODE_ENV !== 'production') {
+  ImmutablePropTypes = {
+    listOf:       createListOfTypeChecker,
+    mapOf:        createMapOfTypeChecker,
+    orderedMapOf: createOrderedMapOfTypeChecker,
+    setOf:        createSetOfTypeChecker,
+    orderedSetOf: createOrderedSetOfTypeChecker,
+    stackOf:      createStackOfTypeChecker,
+    iterableOf:   createIterableOfTypeChecker,
+    recordOf:     createRecordOfTypeChecker,
+    shape:        createShapeChecker,
+    contains:     createShapeChecker,
+    mapContains:  createMapContainsChecker,
+    // Primitive Types
+    list:       createImmutableTypeChecker('List', Immutable.List.isList),
+    map:        createImmutableTypeChecker('Map', Immutable.Map.isMap),
+    orderedMap: createImmutableTypeChecker('OrderedMap', Immutable.OrderedMap.isOrderedMap),
+    set:        createImmutableTypeChecker('Set', Immutable.Set.isSet),
+    orderedSet: createImmutableTypeChecker('OrderedSet', Immutable.OrderedSet.isOrderedSet),
+    stack:      createImmutableTypeChecker('Stack', Immutable.Stack.isStack),
+    seq:        createImmutableTypeChecker('Seq', Immutable.Seq.isSeq),
+    record:     createImmutableTypeChecker('Record', function(isRecord) { return isRecord instanceof Immutable.Record; }),
+    iterable:   createImmutableTypeChecker('Iterable', Immutable.Iterable.isIterable)
+  };
+} else {
+  var productionTypeChecker = function() {
+    invariant(
+      false,
+      'ImmutablePropTypes type checking code is stripped in production.'
+    );
+  };
+  productionTypeChecker.isRequired = productionTypeChecker;
+  var getProductionTypeChecker = function () { return productionTypeChecker };
+
+  ImmutablePropTypes = {
+    listOf:       getProductionTypeChecker,
+    mapOf:        getProductionTypeChecker,
+    orderedMapOf: getProductionTypeChecker,
+    setOf:        getProductionTypeChecker,
+    orderedSetOf: getProductionTypeChecker,
+    stackOf:      getProductionTypeChecker,
+    iterableOf:   getProductionTypeChecker,
+    recordOf:     getProductionTypeChecker,
+    shape:        getProductionTypeChecker,
+    contains:     getProductionTypeChecker,
+    mapContains:  getProductionTypeChecker,
+    // Primitive Types
+    list:       productionTypeChecker,
+    map:        productionTypeChecker,
+    orderedMap: productionTypeChecker,
+    set:        productionTypeChecker,
+    orderedSet: productionTypeChecker,
+    stack:      productionTypeChecker,
+    seq:        productionTypeChecker,
+    record:     productionTypeChecker,
+    iterable:   productionTypeChecker
+  };
+}
 
 function getPropType(propValue) {
   var propType = typeof propValue;
