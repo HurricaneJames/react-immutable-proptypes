@@ -32,6 +32,9 @@ var ImmutablePropTypes = {
   iterable:   createImmutableTypeChecker('Iterable', Immutable.Iterable.isIterable)
 };
 
+ImmutablePropTypes.iterable.indexed = createIterableSubclassTypeChecker('Indexed', Immutable.Iterable.isIndexed);
+ImmutablePropTypes.iterable.keyed = createIterableSubclassTypeChecker('Keyed', Immutable.Iterable.isKeyed);
+
 function getPropType(propValue) {
   var propType = typeof propValue;
   if (Array.isArray(propValue)) {
@@ -85,6 +88,12 @@ function createImmutableTypeChecker(immutableClassName, immutableClassTypeValida
     return null;
   }
   return createChainableTypeChecker(validate);
+}
+
+function createIterableSubclassTypeChecker(subclassName, validator) {
+  return createImmutableTypeChecker(`Iterable.${subclassName}`, (propValue) =>
+    Immutable.Iterable.isIterable(propValue) && validator(propValue)
+  );
 }
 
 function createIterableTypeChecker(typeChecker, immutableClassName, immutableClassTypeValidator) {
