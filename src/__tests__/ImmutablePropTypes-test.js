@@ -71,6 +71,18 @@ describe('ImmutablePropTypes', function() {
       typeCheckPass(PropTypes.iterable, Immutable.OrderedSet());
       typeCheckPass(PropTypes.iterable, Immutable.Stack());
       typeCheckPass(PropTypes.iterable, Immutable.Seq());
+      typeCheckPass(PropTypes.iterable, Immutable.Seq());
+      typeCheckPass(PropTypes.iterable.indexed, Immutable.Iterable.Indexed());
+      typeCheckPass(PropTypes.iterable.indexed, Immutable.List());
+      typeCheckPass(PropTypes.iterable.indexed, Immutable.Stack());
+      typeCheckPass(PropTypes.iterable.indexed, Immutable.Range());
+      typeCheckPass(PropTypes.iterable.indexed, Immutable.Repeat());
+      typeCheckPass(PropTypes.iterable.indexed, Immutable.Seq.Indexed());
+      typeCheckPass(PropTypes.iterable.keyed, Immutable.Iterable.Keyed());
+      typeCheckPass(PropTypes.iterable.keyed, Immutable.Map());
+      typeCheckPass(PropTypes.iterable.keyed, Immutable.OrderedMap());
+      typeCheckPass(PropTypes.iterable.keyed, new (Immutable.Record({a: 1}))());
+      typeCheckPass(PropTypes.iterable.keyed, Immutable.Seq.Keyed());
     });
     it('should warn for invalid lists', function() {
       typeCheckFail(
@@ -202,6 +214,168 @@ describe('ImmutablePropTypes', function() {
         Immutable.Iterable(),
         'Invalid prop `testProp` of type `Immutable.Seq` supplied to ' +
         '`testComponent`, expected `Record`.'
+      );
+    });
+    it('should warn for invalid iterables', function() {
+      typeCheckFail(
+        PropTypes.iterable,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected `Iterable`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Iterable`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable,
+        '',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected `Iterable`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable,
+        false,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+        '`testComponent`, expected `Iterable`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Iterable`.'
+      );
+    });
+    it('should warn for invalid indexed iterables', function() {
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        '',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        false,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        Immutable.Map(),
+        'Invalid prop `testProp` of type `Immutable.Map` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+        Immutable.Set(),
+        'Invalid prop `testProp` of type `Immutable.Set` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.indexed,
+         new (Immutable.Record({a: 1}))(),
+        'Invalid prop `testProp` of type `Immutable.Record` supplied to ' +
+        '`testComponent`, expected `Iterable.Indexed`.'
+      );
+    });
+    it('should warn for invalid keyed iterables', function() {
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        '',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        false,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        0,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        Immutable.List(),
+        'Invalid prop `testProp` of type `Immutable.List` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        Immutable.Set(),
+        'Invalid prop `testProp` of type `Immutable.Set` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        Immutable.OrderedSet(),
+        'Invalid prop `testProp` of type `Immutable.OrderedSet` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        Immutable.Stack(),
+        'Invalid prop `testProp` of type `Immutable.Stack` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        Immutable.Range(),
+        'Invalid prop `testProp` of type `Immutable.Range` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
+      );
+      typeCheckFail(
+        PropTypes.iterable.keyed,
+        Immutable.Repeat(),
+        'Invalid prop `testProp` of type `Immutable.Repeat` supplied to ' +
+        '`testComponent`, expected `Iterable.Keyed`.'
       );
     });
     it('should be implicitly optional and not warn without values', function() {
