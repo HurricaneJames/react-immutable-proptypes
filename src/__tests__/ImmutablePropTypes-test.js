@@ -1366,6 +1366,23 @@ describe('ImmutablePropTypes', function() {
         requiredMessage
       );
     });
+
+    it('should accept Records', function() {
+      var Type = new Immutable.Record({});
+
+      typeCheckPass(PropTypes.recordOf(Type), new Type());
+    });
+
+    it('should not accept wrong Records', function() {
+      var TypeA = new Immutable.Record({});
+      var TypeB = new Immutable.Record({});
+
+      typeCheckFail(
+          PropTypes.recordOf(TypeA),
+          new TypeB(),
+          'Invalid prop `testProp` supplied to `testComponent`, expected Immutable.js Record of different type.'
+      );
+    });
   });
 
   describe('Shape Types [deprecated]', function() {

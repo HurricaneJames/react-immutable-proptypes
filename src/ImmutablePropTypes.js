@@ -234,6 +234,18 @@ function createRecordOfTypeChecker(recordKeys) {
         `supplied to \`${componentName}\`, expected an Immutable.js Record.`
       );
     }
+
+    if (recordKeys.constructor !== Object) {
+      if (!(propValue instanceof recordKeys)) {
+        return new Error(
+            `Invalid ${location} \`${propName}\` supplied to \`${componentName}\`, ` +
+            `expected Immutable.js Record of different type.`
+        );
+      }
+
+      return undefined;
+    }
+
     for (var key in recordKeys) {
       var checker = recordKeys[key];
       if (!checker) {
