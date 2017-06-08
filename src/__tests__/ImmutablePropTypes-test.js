@@ -1703,4 +1703,134 @@ describe('ImmutablePropTypes', function() {
       );
     });
   });
+
+  describe('OrderedMapContains Types', function() {
+    it('should warn for non objects', function() {
+      typeCheckFail(
+        PropTypes.orderedMapContains({}),
+        'some string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+      typeCheckFail(
+        PropTypes.orderedMapContains({}),
+        ['array'],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+      typeCheckFail(
+        PropTypes.orderedMapContains({}),
+        {a: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an Immutable.js OrderedMap.'
+      );
+    });
+
+    it('should not warn for empty values', function() {
+      typeCheckPass(PropTypes.orderedMapContains({}), undefined);
+      typeCheckPass(PropTypes.orderedMapContains({}), null);
+      typeCheckPass(PropTypes.orderedMapContains({}), Immutable.OrderedMap({}));
+    });
+
+    it('should not warn for an empty Immutable object', function() {
+      typeCheckPass(PropTypes.orderedMapContains({}).isRequired, Immutable.OrderedMap({}));
+    });
+
+    it('should not warn for non specified types', function() {
+      typeCheckPass(PropTypes.orderedMapContains({}), Immutable.OrderedMap({key: 1}));
+    });
+
+    it('should not warn for valid types', function() {
+      typeCheckPass(PropTypes.orderedMapContains({key: React.PropTypes.number}), Immutable.OrderedMap({key: 1}));
+    });
+
+    it('should not warn for nested valid types', function() {
+      typeCheckPass(
+        PropTypes.orderedMapContains({
+          data: PropTypes.listOf(PropTypes.orderedMapContains({
+            id: React.PropTypes.number.isRequired
+          })).isRequired
+        }),
+        Immutable.OrderedMap({data: Immutable.List([Immutable.OrderedMap({id: 1}), Immutable.OrderedMap({id: 2})])})
+      );
+    });
+
+    it('should warn for nested invalid types', function() {
+      typeCheckFail(
+        PropTypes.orderedMapContains({
+          data: PropTypes.listOf(PropTypes.orderedMapContains({
+            id: React.PropTypes.number.isRequired
+          })).isRequired
+        }),
+        Immutable.OrderedMap({data: Immutable.List([Immutable.OrderedMap({id: 1}), Immutable.OrderedMap({})])}),
+        'Required prop `testProp.data[1].id` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should ignore null keys', function() {
+      typeCheckPass(PropTypes.orderedMapContains({key: null}), Immutable.OrderedMap({key: 1}));
+    });
+
+    it('should warn for required valid types', function() {
+      typeCheckFail(
+        PropTypes.orderedMapContains({key: React.PropTypes.number.isRequired}),
+        Immutable.OrderedMap({}),
+        'Required prop `testProp.key` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should warn for the first required type', function() {
+      typeCheckFail(
+        PropTypes.orderedMapContains({
+          key: React.PropTypes.number.isRequired,
+          secondKey: React.PropTypes.number.isRequired
+        }),
+        Immutable.OrderedMap({}),
+        'Required prop `testProp.key` was not specified in `testComponent`.'
+      );
+    });
+
+    it('should warn for invalid key types', function() {
+      typeCheckFail(PropTypes.orderedMapContains({key: React.PropTypes.number}),
+        Immutable.OrderedMap({key: 'abc'}),
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
+        'expected `number`.'
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', function() {
+      typeCheckPass(
+        PropTypes.orderedMapContains(PropTypes.orderedMapContains({key: React.PropTypes.number})), null
+      );
+      typeCheckPass(
+        PropTypes.orderedMapContains(PropTypes.orderedMapContains({key: React.PropTypes.number})), undefined
+      );
+    });
+
+    it('should warn for missing required values', function() {
+      typeCheckFail(
+        PropTypes.orderedMapContains({key: React.PropTypes.number}).isRequired,
+        null,
+        requiredMessage
+      );
+      typeCheckFail(
+        PropTypes.orderedMapContains({key: React.PropTypes.number}).isRequired,
+        undefined,
+        requiredMessage
+      );
+    });
+
+    it('should not validate a list', function() {
+      var contains = {
+        0: React.PropTypes.number.isRequired,
+        1: React.PropTypes.string.isRequired,
+        2: React.PropTypes.string
+      };
+      typeCheckFail(
+        PropTypes.orderedMapContains(contains),
+        Immutable.List([1, '2']),
+        'Invalid prop `testProp` of type `Immutable.List` supplied to `testComponent`, expected an Immutable.js OrderedMap.'
+      );
+    });
+  });
 });
