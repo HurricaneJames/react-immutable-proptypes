@@ -12,17 +12,18 @@ var ImmutablePropTypes;
 
 if (process.env.NODE_ENV !== 'production') {
   ImmutablePropTypes = {
-    listOf:       createListOfTypeChecker,
-    mapOf:        createMapOfTypeChecker,
-    orderedMapOf: createOrderedMapOfTypeChecker,
-    setOf:        createSetOfTypeChecker,
-    orderedSetOf: createOrderedSetOfTypeChecker,
-    stackOf:      createStackOfTypeChecker,
-    iterableOf:   createIterableOfTypeChecker,
-    recordOf:     createRecordOfTypeChecker,
-    shape:        createShapeChecker,
-    contains:     createShapeChecker,
-    mapContains:  createMapContainsChecker,
+    listOf:             createListOfTypeChecker,
+    mapOf:              createMapOfTypeChecker,
+    orderedMapOf:       createOrderedMapOfTypeChecker,
+    setOf:              createSetOfTypeChecker,
+    orderedSetOf:       createOrderedSetOfTypeChecker,
+    stackOf:            createStackOfTypeChecker,
+    iterableOf:         createIterableOfTypeChecker,
+    recordOf:           createRecordOfTypeChecker,
+    shape:              createShapeChecker,
+    contains:           createShapeChecker,
+    mapContains:        createMapContainsChecker,
+    orderedMapContains: createOrderedMapContainsChecker,
     // Primitive Types
     list:       createImmutableTypeChecker('List', Immutable.List.isList),
     map:        createImmutableTypeChecker('Map', Immutable.Map.isMap),
@@ -45,17 +46,18 @@ if (process.env.NODE_ENV !== 'production') {
   var getProductionTypeChecker = function () { return productionTypeChecker };
 
   ImmutablePropTypes = {
-    listOf:       getProductionTypeChecker,
-    mapOf:        getProductionTypeChecker,
-    orderedMapOf: getProductionTypeChecker,
-    setOf:        getProductionTypeChecker,
-    orderedSetOf: getProductionTypeChecker,
-    stackOf:      getProductionTypeChecker,
-    iterableOf:   getProductionTypeChecker,
-    recordOf:     getProductionTypeChecker,
-    shape:        getProductionTypeChecker,
-    contains:     getProductionTypeChecker,
-    mapContains:  getProductionTypeChecker,
+    listOf:             getProductionTypeChecker,
+    mapOf:              getProductionTypeChecker,
+    orderedMapOf:       getProductionTypeChecker,
+    setOf:              getProductionTypeChecker,
+    orderedSetOf:       getProductionTypeChecker,
+    stackOf:            getProductionTypeChecker,
+    iterableOf:         getProductionTypeChecker,
+    recordOf:           getProductionTypeChecker,
+    shape:              getProductionTypeChecker,
+    contains:           getProductionTypeChecker,
+    mapContains:        getProductionTypeChecker,
+    orderedMapContains: getProductionTypeChecker,
     // Primitive Types
     list:       productionTypeChecker,
     map:        productionTypeChecker,
@@ -282,6 +284,10 @@ function createShapeChecker(shapeTypes) {
 
 function createMapContainsChecker(shapeTypes) {
   return createShapeTypeChecker(shapeTypes, 'Map', Immutable.Map.isMap);
+}
+
+function createOrderedMapContainsChecker(shapeTypes) {
+  return createShapeTypeChecker(shapeTypes, 'OrderedMap', Immutable.OrderedMap.isOrderedMap);
 }
 
 module.exports = ImmutablePropTypes;
