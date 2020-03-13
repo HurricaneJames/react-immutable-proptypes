@@ -33,7 +33,7 @@
   "devDependencies": {
     "babel": "^4.6.6",
     "babel-eslint": "^3.1.1",
-    "eslint": "^0.21.0",
+    "eslint": "^6.6.0",
     "eslint-plugin-react": "^2.2.0",
     "expect.js": "^0.3.1",
     "immutable": "^3.7.4",
