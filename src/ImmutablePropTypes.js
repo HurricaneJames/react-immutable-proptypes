@@ -153,7 +153,7 @@ function createIterableTypeChecker(typeChecker, immutableClassName, immutableCla
       );
     }
 
-    var propValues = propValue.toArray();
+    var propValues = propValue.valueSeq().toArray();
     for (var i = 0, len = propValues.length; i < len; i++) {
       var error = typeChecker(propValues, i, componentName, location, `${propFullName}[${i}]`, ...rest);
       if (error instanceof Error) {
