@@ -5,6 +5,7 @@
  *     ImmutableTypes.shape  is based on React.PropTypes.shape, but for any Immutable.Iterable
  */
 var Immutable = require('immutable');
+var invariant = require('invariant');
 
 var ANONYMOUS = '<<anonymous>>';
 
