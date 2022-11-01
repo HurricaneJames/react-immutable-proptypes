@@ -31,14 +31,14 @@
     "immutable": ">=3.6.2"
   },
   "devDependencies": {
-    "babel": "^4.6.6",
-    "babel-eslint": "^3.1.1",
+    "babel": "^6.23.0",
+    "babel-eslint": "^10.1.0",
     "eslint": "^6.6.0",
     "eslint-plugin-react": "^2.2.0",
     "expect.js": "^0.3.1",
     "immutable": "^3.7.4",
-    "istanbul": "~0.3.7",
-    "mocha": "^2.3.3",
+    "istanbul": "~0.4.5",
+    "mocha": "^10.1.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   },
